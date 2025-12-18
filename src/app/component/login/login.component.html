@@ -1,0 +1,49 @@
+<div class="banarshow" style="padding: 80px 90px 80px 90px; background-color: #f5f5f5;">
+    <div class="containt" style="display:flex;justify-content: space-between;">
+        <h1 style="color:#fff;font-size: 30px; font-weight: 700;">Login </h1>
+        <p style="color:#fff;font-size: 20px; font-weight: 400;">Home</p>
+    </div>
+</div>
+
+<div class="container">
+  <div class="login">
+
+    <h1>Login</h1>
+
+    <label class="label email">Email address</label>
+    <input
+      type="email"
+      placeholder="Email address"
+      class="input email-input"
+      [(ngModel)]="email"
+      name="email"
+      required
+    >
+
+    <label class="label password">Password</label>
+    <input
+      type="password"
+      placeholder="Password"
+      class="input password-input"
+      [(ngModel)]="password"
+      name="password"
+      required
+    >
+
+    <!-- رسالة الخطأ -->
+    <p *ngIf="errorMessage" style="color:red; margin-top:10px;">
+      {{ errorMessage }}
+    </p>
+
+    <button class="login-button" (click)="onLogin()">
+      SIGN IN
+    </button>
+
+    <a routerLink="/" class="back-home-link">Forgot Password</a>
+    <p class="dont">Don't have an account?</p>
+    <a routerLink="/create-account" class="back-home-link2">
+      Create an Account
+    </a>
+
+  </div>
+</div>

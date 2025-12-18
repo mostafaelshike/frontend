@@ -1,0 +1,120 @@
+.banarshow {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.37)),
+    url("/assets/breadcrumb.webp") center / cover no-repeat;
+}
+.sidebar-sticky {
+  position: sticky;
+  top: 20px; /* المسافة من أعلى الصفحة */
+}
+.containt h1{
+  
+}
+.search-box {
+  position: relative;
+  width: 250px; /* غيّر حسب الحاجة */
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 30px 14px 10px; /* خلي مساحة على اليمين للأيقونة */
+  border-radius: 15px;
+  border: 1px solid #ccc;
+  color: #6F6F6F;
+}
+
+.search-box i{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* يخلي أي نقرة على input مش عالايقونة */
+  font-size: 16px;
+  color: #31af68;
+}
+.search h6{
+  font-size: 18px;
+  font-weight: 700;
+  color:#333333 ;
+}
+.blog1{
+  display: flex;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+.blog1 img{
+  width: 50%;
+  height: 100%;
+  border-radius: 10px;
+} 
+.contintblog{
+  padding-left: 10px;
+}
+.contintblog a{
+  font-size: 16px;
+  color: #333333;
+  text-decoration: none;
+  font-weight: 500;
+   transition: color 0.6s ease;
+}
+.contintblog a:hover{
+  color: #31af68;
+}
+.contintblog p{
+  font-size: 16px;
+  color: #31af68;
+  margin-top: 10px;
+  font-weight: 500;
+}
+.blogpostimg{
+  position: relative;
+}
+.blogpostimg img{
+  width: 100%;
+  border-radius: 20px;
+
+}
+.date{
+  position: absolute;
+ top: 10px;
+  right:  10px;
+  background-color: #fff;
+  color: #31af68;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.blogpost h4 {
+  margin-top: 10px;
+  color: #333333;
+  font-size: 20px;
+  font-weight: 600;
+  transition: color 0.6s ease; /* الحركة */
+}
+
+.blogpost h4:hover {
+  color: #31af68;
+}
+.blogpost p {
+  margin-top: 10px;
+  color: #6F6F6F;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+.blogpost button{
+  background-color: #31af68;
+    color: #ffffff;
+    font-size: 15px;
+    padding: 16px 40px;
+    text-transform: uppercase;
+    border: none;
+    font-weight: 700;
+    border-radius: 10px;
+
+}

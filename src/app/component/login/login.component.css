@@ -1,0 +1,119 @@
+.banarshow {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.37)),
+    url("/assets/breadcrumb.webp") center / cover no-repeat;
+}
+.container{
+padding-top: 100px;
+    padding-bottom: 100px;
+   display: flex;
+  justify-content: center;  /* في النص أفقي */
+  align-items: center;
+}
+.login{
+   
+    padding: 60px;
+    background-color: #f7f7f7;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+.login h1{
+    font-size: 40px;
+    line-height: 1;
+    font-family:sans-serif ;
+    color:#333333 ;
+    font-weight: 700;
+    font-style: normal;
+
+}
+.email{
+    display: block;
+    position: relative;
+   right: 140px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+   
+    cursor: auto;
+    line-height: 1;
+    font-size: 16px;
+    color:#333333;
+    font-weight: 600;
+}
+.email-input{
+    width: 400px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color:#6F6F6F ;
+    font-size: 16px;
+    padding: 14px 15px;
+}
+.email-input:focus{
+    outline: none;
+  
+    border: none;
+}
+.password{
+    display: block;
+    position: relative;
+   right: 149px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+   
+    cursor: auto;
+    line-height: 1;
+    font-size: 16px;
+    color:#333333;
+    font-weight: 600;
+}
+.password-input{
+    width: 400px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color:#6F6F6F;
+    font-size: 16px;
+    padding: 14px 15px;
+}
+
+.password-input:focus,
+.password-input:focus-visible{
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+.login-button{
+    background-color: #31af68;
+    color: #ffffff;
+    font-size: 15px;
+    padding: 16px 40px;
+    margin-top: 40px;
+    text-transform: uppercase;
+    border: none;
+    font-weight: 700;
+    border-radius: 10px;
+}
+.back-home-link{
+    display: block;
+    color: #999;
+    margin-top: 18px;
+    text-decoration: underline;
+    line-height: 1;
+}
+.dont{
+   font-size: 18px;
+   color:#333333 ; 
+   font-weight: 500;
+   margin-top: 20px;
+}
+.back-home-link2{
+    color:#31af68 ;
+    text-decoration: underline;
+}

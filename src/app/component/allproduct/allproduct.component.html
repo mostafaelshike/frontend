@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4  fw-bold">📦 إدارة المنتجات</h2>
+
+  <div class="text-end mb-3">
+    <button class="btn  fw-bold" (click)="createProduct()">
+      ➕ إضافة منتج جديد
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-center text-muted">جاري تحميل المنتجات...</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <table class="table table-striped table-hover align-middle text-center shadow" *ngIf="!loading && products.length">
+    <thead class="table-danger">
+      <tr>
+        <th>الصورة</th>
+        <th>الاسم</th>
+        <th>الفئة</th>
+        <th>السعر</th>
+        <th>الخيارات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>
+          <img
+            [src]="getImageUrl(product.images[0])"
+            alt="{{ product.name }}"
+            width="70"
+            height="70"
+            class="rounded border"
+          />
+        </td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.price | currency:'EGP':'symbol':'1.0-0' }}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-danger me-2" (click)="editProduct(product._id)">
+            ✏️ تعديل
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteProduct(product._id)">
+            🗑️ حذف
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && products.length === 0" class="text-center text-muted">
+    لا توجد منتجات لعرضها.
+  </div>
+</div>
+

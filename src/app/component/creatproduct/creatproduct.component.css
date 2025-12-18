@@ -1,0 +1,12 @@
+input{
+    border: solid .5px rgba(0, 0, 0, 0.123);
+}
+input:focus{
+    outline: none;
+    border: none;
+  
+}
+button{
+    background-color:#31af68 ;
+    color: white;
+}
