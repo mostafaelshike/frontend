@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CarouselModule,RouterLink],
+  imports: [CarouselModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })

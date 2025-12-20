@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
-import { environment } from '../../environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
   // رابط API الخاص بالطلبات
- private apiUrl = environment.apiUrl + '/orders';
+  private apiUrl = 'http://localhost:5000/api/orders';
 
   // BehaviorSubject لتتبع السلة محليًا
   private cartSubject = new BehaviorSubject<any[]>([]);
