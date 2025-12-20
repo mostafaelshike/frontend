@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../../environment';
+
 interface TokenPayload {
   id: string;
   role: string;
@@ -14,20 +15,23 @@ interface TokenPayload {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private apiUrl = `${environment.apiUrl}/auth`;
+  // ✅apiUrl الأساسي: https://.../api/users
+  private apiUrl = `${environment.apiUrl}/users`; 
+  
   private tokenSubject = new BehaviorSubject<string | null>(
     localStorage.getItem('token')
   );
 
   constructor(private http: HttpClient) {}
 
-  // ✅ تسجيل مستخدم جديد (JSON مش FormData)
+  // ✅ تسجيل مستخدم جديد
   register(userData: {
     firstname: string;
     lastname: string;
     email: string;
     password: string;
   }): Observable<any> {
+    // الرابط النهائي الصحيح: https://.../api/users/register
     return this.http.post(`${this.apiUrl}/register`, userData).pipe(
       tap((res: any) => {
         if (res?.token) {
@@ -39,6 +43,7 @@ export class AuthService {
 
   // ✅ تسجيل الدخول
   login(email: string, password: string): Observable<any> {
+    // الرابط النهائي الصحيح: https://.../api/users/login
     return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
       tap((res: any) => {
         if (res?.token) {
@@ -48,7 +53,7 @@ export class AuthService {
     );
   }
 
-  // حفظ بيانات المستخدم
+  // حفظ بيانات المستخدم في LocalStorage بعد النجاح
   private saveUserData(token: string) {
     try {
       const decoded: TokenPayload = jwtDecode(token);
@@ -67,7 +72,7 @@ export class AuthService {
     }
   }
 
-  // بيانات المستخدم
+  // استرجاع بيانات المستخدم الحالية
   getUserData() {
     return {
       id: localStorage.getItem('id'),
@@ -107,4 +112,3 @@ export class AuthService {
     this.tokenSubject.next(null);
   }
 }
-
