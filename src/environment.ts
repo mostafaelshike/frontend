@@ -1,6 +1,6 @@
 export const environment = {
-  production: true, // اجعلها true لأنك ترفع المشروع الآن
-  apiUrl: 'https://backend-production-d59f5.up.railway.app/api',
-  baseUrl: 'https://backend-production-d59f5.up.railway.app',
+  production: true,
+  apiUrl: 'https://back-end-production-cc09.up.railway.app/api',  // الصحيح 100%
+  baseUrl: 'https://back-end-production-cc09.up.railway.app',
   appName: 'MECAL',
-}; 
+};
