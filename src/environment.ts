@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://back-end:8080/app/api',  // الصحيح 100%
-  baseUrl: 'http://back-end:8080/app',
+  apiUrl: 'https://back-end-production-6523.up.railway.app/api',  // الصحيح 100%
+  baseUrl: 'https://back-end-production-6523.up.railway.app',
   appName: 'MECAL',
 };
