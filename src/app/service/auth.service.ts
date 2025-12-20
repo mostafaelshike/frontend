@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
-
+import { environment } from '../../environment';
 interface TokenPayload {
   id: string;
   role: string;
@@ -14,7 +14,7 @@ interface TokenPayload {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:5000/api/users';
+  private apiUrl = `${environment.apiUrl}/auth`;
   private tokenSubject = new BehaviorSubject<string | null>(
     localStorage.getItem('token')
   );

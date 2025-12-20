@@ -3,11 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { environment } from '../../environment';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private apiUrl = 'http://localhost:5000/api/products';
-
+  private apiUrl = `${environment.apiUrl}/products`;
+  
   constructor(private http: HttpClient, private auth: AuthService) {}
 
   private getAuthHeaders(): HttpHeaders {
