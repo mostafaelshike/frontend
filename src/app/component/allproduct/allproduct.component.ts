@@ -15,8 +15,9 @@ export class AllproductComponent implements OnInit {
   products: any[] = [];
   loading = true;
   errorMessage = '';
-  // رابط الباك إند على ريلواي
-  private baseUrl = 'https://backend-production-c9008.up.railway.app';
+  
+  // رابط الباك إند على ريلواي لتركيب مسار الصور
+  private serverUrl = 'https://backend-production-c9008.up.railway.app';
 
   constructor(private productService: ProductService, private router: Router) {}
 
@@ -28,23 +29,24 @@ export class AllproductComponent implements OnInit {
     this.loading = true;
     this.productService.getAllProducts().subscribe({
       next: (res: any) => {
-        // بما أن الباك إند يرسل { success: true, products: [...] }
+        // ✅ الباك إند يرسل { success: true, products: [...] }
+        // نستخرج المصفوفة من res.products
         this.products = res.products || []; 
         this.loading = false;
+        console.log('Data loaded:', this.products);
       },
       error: (err) => {
-        console.error('Error fetching products:', err);
-        this.errorMessage = 'فشل في تحميل المنتجات، تأكد من اتصال السيرفر.';
+        console.error('Fetch Error:', err);
+        this.errorMessage = 'فشل في تحميل المنتجات. تأكد من تشغيل السيرفر.';
         this.loading = false;
       }
     });
   }
 
-  // إنشاء رابط الصورة الكامل
+  // ✅ بناء رابط الصورة: المسار مخزن في القاعدة كـ /uploads/name.jpg
   getImageUrl(img: string) {
-    if (!img) return 'assets/no-image.png'; // صورة افتراضية
-    // إذا كانت الصورة مخزنة بمسار يبدأ بـ /uploads
-    return `${this.baseUrl}${img}`;
+    if (!img) return 'assets/no-image.png'; 
+    return `${this.serverUrl}${img}`;
   }
 
   createProduct() {
@@ -56,14 +58,13 @@ export class AllproductComponent implements OnInit {
   }
 
   deleteProduct(id: string) {
-    if (confirm('هل أنت متأكد من حذف هذا المنتج نهائياً؟')) {
+    if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
       this.productService.deleteProduct(id).subscribe({
         next: () => {
-          // تحديث القائمة فوراً بعد الحذف
           this.products = this.products.filter(p => p._id !== id);
-          alert('تم حذف المنتج بنجاح');
+          alert('تم الحذف بنجاح');
         },
-        error: (err) => alert('حدث خطأ أثناء الحذف: ' + err.message)
+        error: (err) => alert('خطأ أثناء الحذف: ' + err.message)
       });
     }
   }

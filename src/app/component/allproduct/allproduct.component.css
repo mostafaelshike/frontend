@@ -1,39 +1,8 @@
-.container {
-    max-width: 1100px;
-}
-
-.table-responsive {
-    border: none;
-    background: white;
-}
-
-.table thead {
-    background-color: #212529;
-}
-
-.table tbody tr:hover {
-    background-color: #f8f9fa;
-    transition: background-color 0.2s;
-}
-
-.btn-success {
-    background-color: #31af68;
-    border: none;
-}
-
-.btn-success:hover {
-    background-color: #268c52;
-}
-
-.img-thumbnail {
-    transition: transform 0.2s;
-}
-
-.img-thumbnail:hover {
-    transform: scale(1.1);
-}
-
-.badge {
-    font-size: 0.85rem;
-    font-weight: 500;
-}
+.container { max-width: 1200px; }
+.add-btn { background-color: #31af68; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; }
+.add-btn:hover { background-color: #268c52; }
+.table-dark { background-color: #2c3e50; }
+.loader-container { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; }
+.card { overflow: hidden; }
+tr:hover { background-color: #f8f9fa; }
+.badge { font-weight: 500; padding: 8px 12px; }
