@@ -1,101 +1,68 @@
+<div class="banarshow">
+    <div class="containt">
+        <h1>تعديل المنتج</h1>
+        <p>الرئيسية / تعديل</p>
+    </div>
+</div>
+
 <div class="container py-5">
-  <div class="card shadow-lg p-4 border-0 rounded-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="card shadow-lg p-4 border-0 rounded-4">
+                <h2 class="text-center mb-4 fw-bold">تعديل بيانات المنتج</h2>
 
-    <h2 class="text-center mb-4 fw-bold ">تعديل المنتج</h2>
+                <form [formGroup]="productForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">اسم المنتج</label>
+                            <input type="text" class="form-control custom-input" formControlName="name" placeholder="اسم المنتج">
+                        </div>
 
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">السعر</label>
+                            <input type="number" class="form-control custom-input" formControlName="price" placeholder="0.00">
+                        </div>
+                    </div>
 
-      <!-- اسم المنتج -->
-      <div class="mb-3">
-        <label class="form-label fw-semibold">اسم المنتج</label>
-        <input
-          type="text"
-          class="form-control "
-          formControlName="name">
-      </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">الوصف</label>
+                        <textarea class="form-control custom-input" rows="3" formControlName="description" placeholder="وصف تفصيلي للمنتج..."></textarea>
+                    </div>
 
-      <!-- السعر -->
-      <div class="mb-3">
-        <label class="form-label fw-semibold">السعر</label>
-        <input
-          type="number"
-          class="form-control "
-          formControlName="price">
-      </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">القسم</label>
+                        <select class="form-select custom-input" formControlName="category">
+                            <option value="" disabled>اختر القسم</option>
+                            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                        </select>
+                    </div>
 
-      <!-- الوصف -->
-      <div class="mb-3">
-        <label class="form-label fw-semibold">الوصف</label>
-        <textarea
-          class="form-control "
-          rows="3"
-          formControlName="description"></textarea>
-      </div>
+                    <div class="mb-4 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" formControlName="inStock" id="inStock">
+                        <label class="form-check-label fw-semibold ms-2" for="inStock">المنتج متوفر حالياً في المخزن</label>
+                    </div>
 
-      <!-- القسم -->
-      <div class="mb-3">
-        <label class="form-label fw-semibold">القسم</label>
-        <select
-          class="form-select"
-          formControlName="category">
-          <option value="" disabled>اختر القسم</option>
-          <option *ngFor="let cat of categories" [value]="cat">
-            {{ cat }}
-          </option>
-        </select>
-      </div>
+                    <div class="mb-3 upload-box p-3 border rounded-3 bg-light">
+                        <label class="form-label fw-semibold d-block">تحديث الصور (حد أقصى 4)</label>
+                        <input type="file" class="form-control" multiple accept="image/*" (change)="onFileChange($event)">
+                        
+                        <div class="mt-3 d-flex flex-wrap gap-3 justify-content-center">
+                            <div *ngFor="let img of previewImages; let i = index" class="preview-container">
+                                <img [src]="img" class="img-thumbnail" alt="صورة المنتج">
+                                <button type="button" class="delete-img-btn" (click)="removeExistingImage(i)" title="حذف">
+                                    &times;
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-      <!-- متوفر -->
-      <div class="mb-4 form-check">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          formControlName="inStock"
-          id="inStock">
-        <label class="form-check-label fw-semibold" for="inStock">
-          متوفر في المخزن
-        </label>
-      </div>
-
-      <!-- الصور -->
-      <div class="mb-3">
-        <label class="form-label fw-semibold">
-          صور المنتج (حد أقصى 4)
-        </label>
-        <input
-          type="file"
-          class="form-control"
-          multiple
-          accept="image/*"
-          (change)="onFileChange($event)">
-      </div>
-
-      <!-- معاينة الصور -->
-      <div class="mb-4 d-flex flex-wrap gap-3">
-        <div
-          *ngFor="let img of previewImages; let i = index"
-          class="border rounded-3 p-2 position-relative">
-          <img
-            [src]="img"
-            width="100"
-            height="100"
-            class="rounded"
-            alt="صورة المنتج">
-          <button
-            type="button"
-            class="btn-close position-absolute top-0 end-0"
-            (click)="removeExistingImage(i)">
-          </button>
+                    <button class="btn btn-submit w-100 py-2 fw-bold fs-5 mt-3" [disabled]="loading">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                        {{ loading ? 'جارٍ التحديث...' : 'تحديث البيانات' }}
+                    </button>
+                </form>
+            </div>
         </div>
-      </div>
-
-      <!-- زر التحديث -->
-      <button
-        class="btn  w-100 py-2 fw-bold"
-        [disabled]="loading">
-        {{ loading ? 'جارٍ التحديث...' : 'تحديث المنتج' }}
-      </button>
-
-    </form>
-  </div>
+    </div>
 </div>
