@@ -27,19 +27,17 @@ export class CreatproductComponent implements OnDestroy {
 
   selectedFiles: File[] = [];
   previewUrls: string[] = [];
-  loading = false; // لمتابعة حالة الإرسال
+  loading = false;
 
   constructor(private productService: ProductService) {}
 
-  // رفع الصور ومعاينتها
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
 
     const filesArray = Array.from(input.files);
-    
-    if (filesArray.length + this.selectedFiles.length > 4) {
-      alert('يمكنك رفع 4 صور كحد أقصى للمنتج الواحد');
+    if (this.selectedFiles.length + filesArray.length > 4) {
+      alert('الحد الأقصى هو 4 صور فقط');
       return;
     }
 
@@ -49,53 +47,53 @@ export class CreatproductComponent implements OnDestroy {
     });
   }
 
-  // إزالة صورة من المعاينة
   removePreview(index: number) {
-    URL.revokeObjectURL(this.previewUrls[index]); // تحرير الذاكرة
+    URL.revokeObjectURL(this.previewUrls[index]);
     this.selectedFiles.splice(index, 1);
     this.previewUrls.splice(index, 1);
   }
 
-  // إرسال البيانات
   onSubmit() {
-    if (!this.product.name || !this.product.description || this.product.price === null || !this.product.category) {
-      alert('الرجاء ملء كافة الحقول الأساسية.');
-      return;
-    }
-
-    if (this.selectedFiles.length === 0) {
-      alert('الرجاء رفع صورة واحدة على الأقل للمنتج.');
+    // التحقق من الحقول الإجبارية
+    if (!this.product.name || !this.product.price || !this.product.category) {
+      alert('الرجاء إدخال الاسم والسعر والقسم على الأقل.');
       return;
     }
 
     this.loading = true;
     const formData = new FormData();
-    
+
     // إضافة البيانات الأساسية
     formData.append('name', this.product.name);
-    formData.append('description', this.product.description);
+    formData.append('description', this.product.description || '');
     formData.append('price', this.product.price.toString());
     formData.append('category', this.product.category);
     formData.append('inStock', this.product.inStock.toString());
-    
-    // إضافة حقل النوع (مهم للباك إند الخاص بك)
-    formData.append('sectionType', this.product.category); 
 
-    // إضافة الصور
-    this.selectedFiles.forEach(file => {
-      formData.append('images', file); // تأكد أن الباك إند يستقبل اسم 'images'
-    });
+    /** * ✅ إصلاح الخطأ: إضافة sectionType
+     * السيرفر يطلب هذا الحقل، سنرسل القسم كنوع للقسم
+     */
+    formData.append('sectionType', this.product.category);
+
+    // إضافة الصور (تأكد أن الباك إند يستخدم 'images' في Multer)
+    if (this.selectedFiles.length > 0) {
+      this.selectedFiles.forEach(file => {
+        formData.append('images', file);
+      });
+    }
 
     this.productService.createProduct(formData).subscribe({
-      next: () => {
+      next: (res) => {
         this.loading = false;
-        alert('✅ تم إضافة المنتج بنجاح وتوفره في المتجر!');
+        alert('✅ تم إنشاء المنتج بنجاح!');
         this.resetForm();
       },
       error: (err) => {
         this.loading = false;
-        console.error('❌ Error creating product:', err);
-        alert(err.error?.message || '❌ حدث خطأ أثناء الاتصال بالسيرفر.');
+        console.error('❌ Server Error Details:', err);
+        // إظهار رسالة الخطأ القادمة من Railway
+        const errorMsg = err.error?.message || 'حدث خطأ في السيرفر (500). تأكد من صحة البيانات.';
+        alert(errorMsg);
       }
     });
   }
@@ -107,7 +105,6 @@ export class CreatproductComponent implements OnDestroy {
     this.previewUrls = [];
   }
 
-  // تنظيف الروابط عند الخروج من الصفحة
   ngOnDestroy() {
     this.previewUrls.forEach(url => URL.revokeObjectURL(url));
   }

@@ -1,7 +1,7 @@
 <div class="banarshow">
     <div class="containt">
-        <h1>إضافة منتج جديد</h1>
-        <p>لوحة التحكم / المنتجات</p>
+        <h1>إضافة منتج</h1>
+        <p>الرئيسية / لوحة التحكم</p>
     </div>
 </div>
 
@@ -9,61 +9,57 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-lg-8">
             <div class="card shadow-lg p-4 border-0 rounded-4">
-                <h2 class="text-center mb-4 fw-bold text-dark">تفاصيل المنتج</h2>
+                <h2 class="text-center mb-4 fw-bold">بيانات المنتج الجديد</h2>
 
-                <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-
+                <form (ngSubmit)="onSubmit()">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">اسم المنتج</label>
-                            <input type="text" class="form-control custom-input" [(ngModel)]="product.name" name="name" placeholder="مثلاً: جهاز قياس ضغط" required>
+                            <input type="text" class="form-control custom-input" [(ngModel)]="product.name" name="name" placeholder="مثلاً: كاشف حرارة" required>
                         </div>
-
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold">السعر (EGP)</label>
-                            <input type="number" class="form-control custom-input" [(ngModel)]="product.price" name="price" min="0" placeholder="0.00" required>
+                            <label class="form-label fw-semibold">السعر</label>
+                            <input type="number" class="form-control custom-input" [(ngModel)]="product.price" name="price" placeholder="0.00" required>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">وصف المنتج</label>
-                        <textarea class="form-control custom-input" [(ngModel)]="product.description" name="description" rows="3" placeholder="اكتب تفاصيل ومميزات المنتج..." required></textarea>
+                        <label class="form-label fw-semibold">الوصف</label>
+                        <textarea class="form-control custom-input" [(ngModel)]="product.description" name="description" rows="3" placeholder="وصف المنتج..."></textarea>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">القسم</label>
                         <select class="form-select custom-input" [(ngModel)]="product.category" name="category" required>
-                            <option value="" disabled selected>اختر القسم المناسب</option>
+                            <option value="" disabled selected>اختر قسم المنتج</option>
                             <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
                         </select>
                     </div>
 
                     <div class="mb-4 form-check form-switch">
                         <input type="checkbox" class="form-check-input" [(ngModel)]="product.inStock" name="inStock" id="inStock">
-                        <label class="form-check-label ms-2 fw-medium" for="inStock">المنتج متوفر حالياً للبيع</label>
+                        <label class="form-check-label ms-2" for="inStock">المنتج متوفر في المخزن</label>
                     </div>
 
-                    <div class="mb-4 upload-section p-3 border rounded-3 bg-light text-center">
-                        <label class="form-label fw-bold d-block mb-3">صور المنتج (حد أقصى 4 صور)</label>
-                        <input type="file" class="form-control d-none" #fileInput (change)="onFileChange($event)" multiple accept="image/*">
-                        
-                        <button type="button" class="btn btn-outline-success mb-2" (click)="fileInput.click()">
-                            <i class="bi bi-cloud-upload"></i> اختر الصور من جهازك
+                    <div class="mb-4 upload-area p-4 border rounded-3 bg-light text-center">
+                        <label class="form-label fw-bold d-block mb-2">صور المنتج (1-4 صور)</label>
+                        <input type="file" #fileInput class="d-none" (change)="onFileChange($event)" multiple accept="image/*">
+                        <button type="button" class="btn btn-outline-dark mb-3" (click)="fileInput.click()">
+                            رفع الصور
                         </button>
 
-                        <div class="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-                            <div *ngFor="let url of previewUrls; let i = index" class="preview-box">
-                                <img [src]="url" alt="معاينة">
-                                <button type="button" class="remove-badge" (click)="removePreview(i)">&times;</button>
+                        <div class="d-flex flex-wrap gap-2 justify-content-center">
+                            <div *ngFor="let url of previewUrls; let i = index" class="position-relative">
+                                <img [src]="url" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;">
+                                <button type="button" (click)="removePreview(i)" class="btn-close position-absolute top-0 end-0 bg-danger rounded-circle p-1" style="font-size: 0.6rem;"></button>
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-submit w-100 py-3 fs-5 fw-bold" [disabled]="loading">
+                    <button type="submit" class="btn btn-submit w-100 py-2 fw-bold fs-5" [disabled]="loading">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                        {{ loading ? 'جارٍ الحفظ الآن...' : 'اعتماد ونشر المنتج' }}
+                        {{ loading ? 'جارٍ الحفظ...' : 'نشر المنتج الآن' }}
                     </button>
-
                 </form>
             </div>
         </div>
