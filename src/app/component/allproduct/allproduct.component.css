@@ -1,0 +1,39 @@
+.container {
+    max-width: 1100px;
+}
+
+.table-responsive {
+    border: none;
+    background: white;
+}
+
+.table thead {
+    background-color: #212529;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s;
+}
+
+.btn-success {
+    background-color: #31af68;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #268c52;
+}
+
+.img-thumbnail {
+    transition: transform 0.2s;
+}
+
+.img-thumbnail:hover {
+    transform: scale(1.1);
+}
+
+.badge {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
