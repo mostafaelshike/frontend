@@ -16,7 +16,7 @@ export class AllproductComponent implements OnInit {
   loading = true;
   errorMessage = '';
   
-  // ✅ الرابط الأساسي للسيرفر (بدون سلاش في النهاية)
+  // ✅ رابط السيرفر على ريلواي
   private serverUrl = 'https://backend-production-c9008.up.railway.app';
 
   constructor(private productService: ProductService, private router: Router) {}
@@ -29,39 +29,41 @@ export class AllproductComponent implements OnInit {
     this.loading = true;
     this.productService.getAllProducts().subscribe({
       next: (res: any) => {
-        // ✅ التأكد من استخراج المصفوفة بشكل صحيح
-        if (res && res.products) {
-          this.products = res.products;
-        } else if (Array.isArray(res)) {
-          this.products = res;
-        } else {
-          this.products = [];
-        }
-        
+        // استخراج المصفوفة حسب هيكلة الباك إند
+        this.products = res.products || res;
         this.loading = false;
-        console.log('المنتجات المحملة:', this.products);
+        console.log('📦 المنتجات المحملة:', this.products);
       },
       error: (err) => {
-        console.error('خطأ أثناء جلب البيانات:', err);
-        this.errorMessage = 'فشل في تحميل المنتجات. تأكد من تشغيل السيرفر ومن إعدادات CORS.';
+        console.error('❌ خطأ جلب البيانات:', err);
+        this.errorMessage = 'تعذر تحميل المنتجات من السيرفر.';
         this.loading = false;
       }
     });
   }
 
-  // ✅ تحسين دالة جلب الصور لتجنب تكرار السلاش أو المسارات الخاطئة
+  /**
+   * ✅ دالة معالجة روابط الصور (الحل النهائي)
+   */
   getImageUrl(img: string): string {
     if (!img) return 'assets/no-image.png'; 
-    
-    // إذا كان المسار يبدأ بـ /uploads فنحن ندمجه مباشرة
-    // أما إذا كان رابطاً كاملاً (URL) فنرجعه كما هو
-    if (img.startsWith('http')) {
-      return img;
+
+    // 1. إذا كان رابطاً كاملاً يبدأ بـ http، نرجعه كما هو
+    if (img.startsWith('http')) return img;
+
+    // 2. معالجة مشكلة الـ Backslash (\) وتحويلها لـ (/) لكي يفهمها الـ Browser
+    // هذه الخطوة تحل مشكلة المسارات القادمة من ويندوز (uploads\image.jpg)
+    let cleanPath = img.replace(/\\/g, '/');
+
+    // 3. التأكد من وجود سلاش واحد فقط في البداية
+    if (!cleanPath.startsWith('/')) {
+      cleanPath = '/' + cleanPath;
     }
+
+    // 4. دمج الرابط النهائي
+    const finalUrl = `${this.serverUrl}${cleanPath}`;
     
-    // إزالة السلاش الإضافي إذا وجد في بداية المسار لتجنب //uploads
-    const cleanImgPath = img.startsWith('/') ? img : `/${img}`;
-    return `${this.serverUrl}${cleanImgPath}`;
+    return finalUrl;
   }
 
   createProduct() {
@@ -69,24 +71,17 @@ export class AllproductComponent implements OnInit {
   }
 
   editProduct(id: string) {
-    // التأكد من تمرير المعرف بشكل صحيح
-    if (id) {
-      this.router.navigate(['/admin/updateproduct', id]);
-    }
+    if (id) this.router.navigate(['/admin/updateproduct', id]);
   }
 
   deleteProduct(id: string) {
-    if (confirm('هل أنت متأكد من حذف هذا المنتج نهائياً؟')) {
+    if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
       this.productService.deleteProduct(id).subscribe({
         next: () => {
-          // تحديث الواجهة فوراً بحذف المنتج محلياً
           this.products = this.products.filter(p => p._id !== id);
           alert('تم الحذف بنجاح');
         },
-        error: (err) => {
-          console.error('خطأ أثناء الحذف:', err);
-          alert('فشل الحذف: قد لا تملك الصلاحية أو أن المنتج غير موجود.');
-        }
+        error: (err) => alert('فشل الحذف، تأكد من الصلاحيات.')
       });
     }
   }
