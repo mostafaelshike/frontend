@@ -1,81 +1,45 @@
-<div class="banarshow" style="padding: 80px 90px 80px 90px; background-color: #f5f5f5;">
-    <div class="containt" style="display:flex;justify-content: space-between;">
-        <h1 style="color:#fff;font-size: 30px; font-weight: 700;">Create Account </h1>
-        <p style="color:#fff;font-size: 20px; font-weight: 400;">Home</p>
+<div class="banarshow">
+    <div class="banar-container">
+        <h1>Create Account</h1>
+        <p>Home</p>
     </div>
 </div>
 
-
-
 <div class="container">
-  <div class="login">
+    <div class="login-card">
+        <h1>Create account</h1>
 
-    <h1>Create account</h1>
+        <div class="form-group">
+            <label>First name</label>
+            <input type="text" placeholder="First name" [(ngModel)]="firstname" name="firstname" required>
+        </div>
 
-    <label class="label email">First name</label>
-    <input 
-      type="text" 
-      placeholder="First name" 
-      class="input email-input" 
-      [(ngModel)]="firstname" 
-      name="firstname" 
-      required 
-    >
+        <div class="form-group">
+            <label>Last name</label>
+            <input type="text" placeholder="Last name" [(ngModel)]="lastname" name="lastname" required>
+        </div>
 
-    <label class="label password">Last name</label>
-    <input 
-      type="text" 
-      placeholder="Last name" 
-      class="input password-input" 
-      [(ngModel)]="lastname" 
-      name="lastname" 
-      required 
-    >
+        <div class="form-group">
+            <label>Email address</label>
+            <input type="email" placeholder="Email address" [(ngModel)]="email" name="email" required>
+        </div>
 
-    <label class="label password">Email address</label>
-    <input 
-      type="email" 
-      placeholder="Email address" 
-      class="input password-input" 
-      [(ngModel)]="email" 
-      name="email" 
-      required 
-    >
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
+        </div>
 
-    <label class="label password">Password</label>
-    <input 
-      type="password" 
-      placeholder="Password" 
-      class="input password-input" 
-      [(ngModel)]="password" 
-      name="password" 
-      required 
-    >
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+        </div>
 
-    <label class="label password">Confirm Password</label>
-    <input 
-      type="password" 
-      placeholder="Confirm Password" 
-      class="input password-input" 
-      [(ngModel)]="confirmPassword" 
-      name="confirmPassword" 
-      required 
-    >
+        <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+        <p *ngIf="successMessage" class="success-msg">{{ successMessage }}</p>
 
-    <!-- رسالة الخطأ -->
-    <p *ngIf="errorMessage" style="color: red; margin-top: 10px;">
-      {{ errorMessage }}
-    </p>
+        <button type="submit" class="login-button" (click)="onRegister()">CREATE ACCOUNT</button>
 
-    <!-- رسالة النجاح -->
-    <p *ngIf="successMessage" style="color: green; margin-top: 10px;">
-      {{ successMessage }}
-    </p>
-
-    <button type="submit" class="login-button" (click)="onRegister()">CREATE ACCOUNT</button>
-
-    <p class="dont">Already an account holder?</p>
-    <a routerLink="/login" class="back-home-link2">Login</a>
-
-  </div>
+        <p class="dont">Already an account holder?</p>
+        <a routerLink="/login" class="back-home-link2">Login</a>
+    </div>
 </div>

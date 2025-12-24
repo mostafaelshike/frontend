@@ -1,67 +1,62 @@
-<!-- ================= TOP NAV BAR ================= -->
-<nav class="navbar navbar-expand-lg py-2" style="display: flex;">
-  <div class="container">
+<nav class="navbar navbar-expand-lg py-2  " style="background-color: #fff;border-bottom: solid 0.5px rgba(0, 0, 0, 0.13);">
+  <div class="container d-flex align-items-center justify-content-between flex-nowrap">
 
-    <!-- Logo -->
-    <a class="navbar-brand fw-bold" href="#">
-      <img src="assets/logo.webp" class="d-inline-block align-text-top" width="140" />
+    <a class="navbar-brand fw-bold m-0 flex-grow-1 flex-lg-grow-0" routerLink="/" style="min-width: 80px;">
+      <img src="assets/logo.webp" class="img-fluid logo-img" alt="Logo" />
     </a>
 
-    <!-- Search (hidden on mobile, synchronized with Free Shipping) -->
-    <form class="d-none d-lg-flex mx-3 justify-content-center" style="width: 350px; height:50px; border: solid rgba(0, 0, 0, 0.658) .3; border-radius: 9px;">
-      <div class="input-group d-flex">
-        <input class="form-control form-control-sm" type="search" placeholder="Search..." />
-        <button class="btn btn-sm" type="button" style="background-color: #28a745; color: white; width: 50px;">
-          <i class="bi bi-search" style="font-size: 16px; font-weight: bold;"></i>
-        </button>
-      </div>
+    <form class="d-none d-lg-flex mx-3 custom-search-box">
+      <input class="form-control border-0 px-3" type="search" placeholder="Search..." />
+      <button class="btn btn-success border-0 d-flex align-items-center justify-content-center" type="button" style="width: 50px;">
+        <i class="bi bi-search fs-5 text-white"></i>
+      </button>
     </form>
 
-    <!-- TOP ICONS (only for mobile) – hidden in desktop -->
-  <div class="d-flex align-items-center d-lg-none">
-  <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#menuLinks" style="border: none; background: transparent;" (click)="openMenu()">
-    <span class="navbar-toggler-icon"></span>
-</button>
+    <div class="d-flex align-items-center d-lg-none flex-nowrap flex-shrink-0 gap-1">
 
-  <!-- Search icon (mobile only) -->
-  <button class="btn ">
-    <i class="bi bi-search fs-4"></i>
-  </button>
-  <a class="btn "><i class="bi bi-person fs-4" style="color: #333333; font-size: 20px !important; font-weight: 400;"></i></a>
-  <a class="btn me-2" style="display: flex;">
-    <i class="bi bi-heart fs-4" style="color: #333333; font-size: 20px !important; font-weight: 400;"></i>
-    <span style="font-size:20px; color: #333333; margin-left: 5px; font-weight: 400;">0</span>
-  </a>
-  <a class="btn me-2" style="display: flex;">
-    <i class="bi bi-cart fs-4" style="color: #333333; font-size: 20px !important; font-weight: 600;"></i>
-    <span style="font-size:20px; color: #333333; margin-left: 5px; font-weight: 400;">0/$0.00</span>
-  </a>
-</div>
+      <button class="btn p-1 border-0 shadow-none icon-btn">
+        <i class="bi bi-search fs-5"></i>
+      </button>
 
+      <a class="btn p-1 border-0 shadow-none icon-btn" routerLink="/login">
+        <i class="bi bi-person fs-5 text-dark"></i>
+      </a>
 
-    <!-- Contact + Login -->
-    <div class="d-flex align-items-center d-none d-lg-flex">
-  <a href="#" class="btn me-2" style="display: flex;">
-    <i class="bi bi-headphones" style="font-weight: 400; font-size: 40px; color:#31af68;"></i>
-    <div style="margin-left: 10px;">
-      <span style="color:#31af68; font-size: 12px; margin-right: 60px; font-weight: 600;">Contact</span>
-      <h6 style="color:#333333; font-size: 16px;">(210)-986-2564</h6>
+      <a class="btn p-1 border-0 shadow-none position-relative icon-btn">
+        <i class="bi bi-heart fs-5 text-dark"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger counter-badge">0</span>
+      </a>
+
+      <a class="btn p-1 border-0 shadow-none position-relative icon-btn">
+        <i class="bi bi-cart fs-5 text-dark"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success counter-badge">0</span>
+      </a>
+
+      <button class="navbar-toggler p-1 border-0 shadow-none ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#menuLinks" (click)="openMenu()">
+        <span class="navbar-toggler-icon" style="width: 1.1em; height: 1.1em;"></span>
+      </button>
     </div>
-  </a>
 
-  <a href="#" class="btn" style="display: flex;">
-    <i class="bi bi-clock" style="font-weight: 400; font-size: 40px; color:#31af68;"></i>
-    <div style="margin-left: 10px;">
-      <span style="color:#31af68; font-size: 12px; margin-right: 43px; font-weight: 600;">Mon-fri</span>
-      <h6 style="color:#333333; font-size: 16px;">24/7Hours</h6>
+    <div class="d-none d-lg-flex align-items-center gap-3">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-headphones fs-2 text-success"></i>
+        <div>
+          <span class="d-block text-success fw-bold" style="font-size: 11px;">Contact</span>
+          <h6 class="m-0 p-0" style="font-size: 14px; color: #333;">(210)-986-2564</h6>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2 border-start ps-3">
+        <i class="bi bi-clock fs-2 text-success"></i>
+        <div>
+          <span class="d-block text-success fw-bold" style="font-size: 11px;">Mon-Fri</span>
+          <h6 class="m-0 p-0" style="font-size: 14px; color: #333;">24/7 Hours</h6>
+        </div>
+      </div>
     </div>
-  </a>
-</div>
-
 
   </div>
 </nav>
-<hr class="d-none d-lg-block" style="border: none; height: 1px; background-color: rgba(0, 0, 0, 0.411); margin: 0;">
 
 
 <!-- ================= BOTTOM NAV BAR ================= -->
@@ -296,7 +291,7 @@
     </ul>
 
     <!-- Fixed Bottom Contact Info -->
-    <div style="position: fixed;bottom: 100px;">
+    <div style="position: fixed;bottom: 0px;">
       
       <a href="tel:+12109862564" class="d-flex align-items-center text-decoration-none mb-3">
         <i class="bi bi-headphones me-3" style="font-size:40px; color:#31af68;"></i>
@@ -317,3 +312,5 @@
 
   </div>
 </div>
+
+

@@ -1,7 +1,21 @@
+/* البانر العلوي */
 .banarshow {
-  padding-top: 80px;
-  padding-bottom: 80px;
-  background: 
-    linear-gradient(rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.37)),
-    url("/assets/breadcrumb.webp") center / cover no-repeat;
+    padding: 60px 5%; /* استخدام النسبة المئوية للجوانب */
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
+                url("/assets/breadcrumb.webp") center / cover no-repeat;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
 }
+
+.containt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.containt h1 { color: #fff; font-size: 28px; margin: 0; }
+.containt p { color: #fff; font-size: 18px; margin: 0; }

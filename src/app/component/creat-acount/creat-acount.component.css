@@ -1,120 +1,119 @@
+/* --- Banner Section --- */
 .banarshow {
-  padding-top: 80px;
-  padding-bottom: 80px;
-  background: 
-    linear-gradient(rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.37)),
-    url("/assets/breadcrumb.webp") center / cover no-repeat;
+    padding: 60px 20px;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
+                url("/assets/breadcrumb.webp") center / cover no-repeat;
+    color: white;
 }
 
-.container{
-padding-top: 100px;
-    padding-bottom: 100px;
-   display: flex;
-  justify-content: center;  /* في النص أفقي */
-  align-items: center;
+.banar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.login{
-   
-    padding: 60px;
+
+.banar-container h1 { font-size: clamp(24px, 5vw, 30px); margin: 0; }
+.banar-container p { font-size: 18px; margin: 0; }
+
+/* --- Main Container --- */
+.container {
+    padding: 50px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+/* --- Login Card --- */
+.login-card {
+    width: 100%;
+    max-width: 500px; /* أقصى عرض للكارد */
+    padding: 40px 30px;
     background-color: #f7f7f7;
-    display: flex !important;
+    border-radius: 15px;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-}
-.login h1{
-    font-size: 40px;
-    line-height: 1;
-    font-family:sans-serif ;
-    color:#333333 ;
-    font-weight: 700;
-    font-style: normal;
-
-}
-.email{
-    display: block;
-    position: relative;
-   right: 140px;
-    margin-top: 14px;
-    margin-bottom: 14px;
-   
-    cursor: auto;
-    line-height: 1;
-    font-size: 16px;
-    color:#333333;
-    font-weight: 600;
-}
-.email-input{
-    width: 400px;
-    height: 50px;
-    border: none;
-    border-radius: 10px;
-    background-color: #ffffff;
-    color:#6F6F6F ;
-    font-size: 16px;
-    padding: 14px 15px;
-}
-.email-input:focus{
-    outline: none;
-  
-    border: none;
-}
-.password{
-    display: block;
-    position: relative;
-   right: 149px;
-    margin-top: 14px;
-    margin-bottom: 14px;
-   
-    cursor: auto;
-    line-height: 1;
-    font-size: 16px;
-    color:#333333;
-    font-weight: 600;
-}
-.password-input{
-    width: 400px;
-    height: 50px;
-    border: none;
-    border-radius: 10px;
-    background-color: #ffffff;
-    color:#6F6F6F;
-    font-size: 16px;
-    padding: 14px 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-.password-input:focus,
-.password-input:focus-visible{
-    outline: none;
-    border: none;
-    box-shadow: none;
+.login-card h1 {
+    font-size: clamp(28px, 6vw, 40px);
+    margin-bottom: 30px;
+    color: #333;
+    text-align: center;
 }
-.login-button{
+
+/* --- Form Groups (Labels & Inputs) --- */
+.form-group {
+    width: 100%;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    text-align: left; /* يضمن بقاء الليبل جهة اليسار دائماً */
+}
+
+.form-group input {
+    width: 100%; /* يأخذ كامل عرض الكارد */
+    height: 50px;
+    border: 1px solid #ddd; /* إضافة حدود بسيطة */
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 0 15px;
+    font-size: 16px;
+    box-sizing: border-box; /* هام جداً للحفاظ على الأبعاد */
+}
+
+.form-group input:focus {
+    outline: 2px solid #31af68;
+    border-color: transparent;
+}
+
+/* --- Buttons & Links --- */
+.login-button {
+    width: 100%; /* الزر يأخذ عرض المدخلات في الموبايل */
+    max-width: 300px;
     background-color: #31af68;
     color: #ffffff;
-    font-size: 15px;
-    padding: 16px 40px;
-    margin-top: 40px;
+    font-size: 16px;
+    padding: 16px;
+    margin-top: 25px;
     text-transform: uppercase;
     border: none;
     font-weight: 700;
     border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
 }
-.back-home-link{
-    display: block;
-    color: #999;
-    margin-top: 18px;
-    text-decoration: underline;
-    line-height: 1;
+
+.login-button:hover {
+    background-color: #268d53;
 }
-.dont{
-   font-size: 18px;
-   color:#333333 ; 
-   font-weight: 500;
-   margin-top: 20px;
-}
-.back-home-link2{
-    color:#31af68 ;
-    text-decoration: underline;
+
+.error-msg { color: red; font-size: 14px; margin-top: 10px; }
+.success-msg { color: green; font-size: 14px; margin-top: 10px; }
+
+.dont { font-size: 16px; margin-top: 20px; color: #555; }
+.back-home-link2 { color: #31af68; font-weight: 600; }
+
+/* --- Media Queries (للتعديلات الإضافية) --- */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 30px 20px;
+    }
+    
+    .banar-container {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
 }
