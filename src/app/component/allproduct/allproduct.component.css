@@ -1,57 +1,8 @@
-/* الإعدادات العامة */
-.container-fluid { max-width: 1400px; }
-
-.add-btn { 
-  background-color: #31af68; 
-  border: none; 
-  transition: all 0.3s ease;
-}
-
-.add-btn:hover { 
-  background-color: #268c52; 
-  transform: translateY(-2px);
-}
-
-/* تنسيق الصورة */
-.product-img {
-  width: 65px; 
-  height: 65px; 
-  object-fit: cover;
-}
-
-/* تنسيق الجدول في الموبايل */
-@media (max-width: 767.98px) {
-  .header-section h2 { text-align: center; }
-  
-  /* تحويل خلايا الجدول لتظهر تحت بعضها */
-  .custom-table tbody tr {
-    padding: 15px;
-    background: #fff;
-    display: block;
-    margin-bottom: 1rem;
-    border: 1px solid #eee !important;
-    border-radius: 15px;
-  }
-
-  .custom-table td {
-    border: none;
-    text-align: center !important;
-    padding: 0.5rem 0 !important;
-  }
-
-  .product-img {
-    width: 100px; /* تكبير الصورة قليلاً في الموبايل لتظهر بوضوح */
-    height: 100px;
-  }
-
-  .btn-group-mobile {
-    width: 100%;
-    display: flex;
-    gap: 10px;
-  }
-}
-
-/* تحسينات إضافية */
-.loader-container { min-height: 300px; }
-.card { border-radius: 20px !important; }
-tr { transition: background 0.2s; }
+.container { max-width: 1200px; }
+.add-btn { background-color: #31af68; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; }
+.add-btn:hover { background-color: #268c52; }
+.table-dark { background-color: #2c3e50; }
+.loader-container { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; }
+.card { overflow: hidden; }
+tr:hover { background-color: #f8f9fa; }
+.badge { font-weight: 500; padding: 8px 12px; }
