@@ -16,7 +16,7 @@ export class AllproductComponent implements OnInit {
   loading = true;
   errorMessage = '';
   
-  // رابط الباك إند على ريلواي لتركيب مسار الصور
+  // ✅ الرابط الأساسي للسيرفر (بدون سلاش في النهاية)
   private serverUrl = 'https://backend-production-c9008.up.railway.app';
 
   constructor(private productService: ProductService, private router: Router) {}
@@ -29,24 +29,39 @@ export class AllproductComponent implements OnInit {
     this.loading = true;
     this.productService.getAllProducts().subscribe({
       next: (res: any) => {
-        // ✅ الباك إند يرسل { success: true, products: [...] }
-        // نستخرج المصفوفة من res.products
-        this.products = res.products || []; 
+        // ✅ التأكد من استخراج المصفوفة بشكل صحيح
+        if (res && res.products) {
+          this.products = res.products;
+        } else if (Array.isArray(res)) {
+          this.products = res;
+        } else {
+          this.products = [];
+        }
+        
         this.loading = false;
-        console.log('Data loaded:', this.products);
+        console.log('المنتجات المحملة:', this.products);
       },
       error: (err) => {
-        console.error('Fetch Error:', err);
-        this.errorMessage = 'فشل في تحميل المنتجات. تأكد من تشغيل السيرفر.';
+        console.error('خطأ أثناء جلب البيانات:', err);
+        this.errorMessage = 'فشل في تحميل المنتجات. تأكد من تشغيل السيرفر ومن إعدادات CORS.';
         this.loading = false;
       }
     });
   }
 
-  // ✅ بناء رابط الصورة: المسار مخزن في القاعدة كـ /uploads/name.jpg
-  getImageUrl(img: string) {
+  // ✅ تحسين دالة جلب الصور لتجنب تكرار السلاش أو المسارات الخاطئة
+  getImageUrl(img: string): string {
     if (!img) return 'assets/no-image.png'; 
-    return `${this.serverUrl}${img}`;
+    
+    // إذا كان المسار يبدأ بـ /uploads فنحن ندمجه مباشرة
+    // أما إذا كان رابطاً كاملاً (URL) فنرجعه كما هو
+    if (img.startsWith('http')) {
+      return img;
+    }
+    
+    // إزالة السلاش الإضافي إذا وجد في بداية المسار لتجنب //uploads
+    const cleanImgPath = img.startsWith('/') ? img : `/${img}`;
+    return `${this.serverUrl}${cleanImgPath}`;
   }
 
   createProduct() {
@@ -54,17 +69,24 @@ export class AllproductComponent implements OnInit {
   }
 
   editProduct(id: string) {
-    this.router.navigate(['/admin/updateproduct', id]);
+    // التأكد من تمرير المعرف بشكل صحيح
+    if (id) {
+      this.router.navigate(['/admin/updateproduct', id]);
+    }
   }
 
   deleteProduct(id: string) {
-    if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+    if (confirm('هل أنت متأكد من حذف هذا المنتج نهائياً؟')) {
       this.productService.deleteProduct(id).subscribe({
         next: () => {
+          // تحديث الواجهة فوراً بحذف المنتج محلياً
           this.products = this.products.filter(p => p._id !== id);
           alert('تم الحذف بنجاح');
         },
-        error: (err) => alert('خطأ أثناء الحذف: ' + err.message)
+        error: (err) => {
+          console.error('خطأ أثناء الحذف:', err);
+          alert('فشل الحذف: قد لا تملك الصلاحية أو أن المنتج غير موجود.');
+        }
       });
     }
   }

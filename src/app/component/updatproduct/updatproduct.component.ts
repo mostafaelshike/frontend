@@ -12,15 +12,16 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./updatproduct.component.css']
 })
 export class UpdatproductComponent implements OnInit {
-
   productForm!: FormGroup;
   productId!: string;
-
   loading = false;
 
   selectedFiles: File[] = [];
-  existingImages: string[] = [];
-  previewImages: string[] = [];
+  existingImages: string[] = []; // المسارات القادمة من السيرفر
+  previewImages: string[] = [];  // الروابط الكاملة للعرض
+
+  // الرابط الخاص بالسيرفر على ريلواي
+  private serverUrl = 'https://backend-production-c9008.up.railway.app';
 
   categories: string[] = [
     "Bandage", "Covid Mask", "Feature Product", "Injection", "Medikit",
@@ -53,7 +54,10 @@ export class UpdatproductComponent implements OnInit {
 
   loadProduct() {
     this.productService.getProductById(this.productId).subscribe({
-      next: (product) => {
+      next: (res: any) => {
+        // الوصول للبيانات من res.product كما يرسلها الباك إند
+        const product = res.product || res;
+        
         this.productForm.patchValue({
           name: product.name,
           description: product.description,
@@ -63,12 +67,20 @@ export class UpdatproductComponent implements OnInit {
         });
 
         this.existingImages = product.images || [];
-        this.previewImages = this.existingImages.map(
-          (img: string) => `http://localhost:5000${img}`
-        );
+        this.updatePreviewList();
       },
       error: (err) => console.error('❌ Error loading product:', err)
     });
+  }
+
+  // تحديث قائمة المعاينة لتشمل الصور القديمة والجديدة
+  updatePreviewList() {
+    const existingPreviews = this.existingImages.map(img => 
+      img.startsWith('http') ? img : `${this.serverUrl}${img}`
+    );
+    
+    const newPreviews = this.selectedFiles.map(file => URL.createObjectURL(file));
+    this.previewImages = [...existingPreviews, ...newPreviews];
   }
 
   onFileChange(event: Event) {
@@ -76,17 +88,19 @@ export class UpdatproductComponent implements OnInit {
     if (!input.files) return;
 
     this.selectedFiles = Array.from(input.files).slice(0, 4);
-
-    // تحديث المعاينات الجديدة فقط
-    const newPreviews = this.selectedFiles.map(file => URL.createObjectURL(file));
-    this.previewImages = [...this.existingImages.map(img => `http://localhost:5000${img}`), ...newPreviews];
+    this.updatePreviewList();
   }
 
   removeExistingImage(index: number) {
-    if (confirm('هل تريد حذف هذه الصورة؟')) {
+    // إذا كان المؤشر يشير لصورة قديمة
+    if (index < this.existingImages.length) {
       this.existingImages.splice(index, 1);
-      this.previewImages.splice(index, 1);
+    } else {
+      // إذا كان يشير لصورة مختارة حديثاً
+      const newIndex = index - this.existingImages.length;
+      this.selectedFiles.splice(newIndex, 1);
     }
+    this.updatePreviewList();
   }
 
   onSubmit() {
@@ -96,21 +110,22 @@ export class UpdatproductComponent implements OnInit {
     }
 
     const formData = new FormData();
-
     Object.entries(this.productForm.value).forEach(([key, value]) => {
       formData.append(key, value as any);
     });
 
+    // إرسال مصفوفة الصور التي بقيت ولم تُحذف
     formData.append('existingImages', JSON.stringify(this.existingImages));
+    
+    // إضافة الصور الجديدة
     this.selectedFiles.forEach(file => formData.append('images', file));
 
     this.loading = true;
-
     this.productService.updateProduct(this.productId, formData).subscribe({
       next: () => {
         this.loading = false;
         alert('✅ تم تحديث المنتج بنجاح');
-        this.router.navigate(['admin/allproduct']);
+        this.router.navigate(['/admin/allproduct']);
       },
       error: (err) => {
         this.loading = false;

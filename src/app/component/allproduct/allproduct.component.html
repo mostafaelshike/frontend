@@ -1,51 +1,61 @@
 <div class="container mt-5">
-  <div class="header-section d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold"><i class="bi bi-grid-3x3-gap-fill me-2"></i>لوحة التحكم: المنتجات</h2>
-    <button class="btn btn-primary add-btn shadow-sm" (click)="createProduct()">
-       إضافة منتج جديد +
+  <div class="header-section d-flex justify-content-between align-items-center mb-4 p-3 bg-white shadow-sm rounded-4">
+    <h2 class="fw-bold m-0 text-dark">
+      <i class="bi bi-box-seam text-primary me-2"></i>لوحة التحكم: المنتجات
+    </h2>
+    <button class="btn btn-primary add-btn shadow-sm px-4 py-2 fw-bold" (click)="createProduct()">
+      <i class="bi bi-plus-lg me-1"></i> إضافة منتج جديد
     </button>
   </div>
 
-  <div *ngIf="loading" class="loader-container">
-    <div class="spinner-border text-primary" role="status"></div>
-    <p class="mt-2 text-muted">جاري تحميل المنتجات من السيرفر...</p>
+  <div *ngIf="loading" class="loader-container text-center my-5 py-5">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
+    <p class="mt-3 text-muted fw-medium">جاري جلب المنتجات من السيرفر...</p>
   </div>
 
-  <div *ngIf="errorMessage" class="alert alert-danger border-0 shadow-sm">
-    {{ errorMessage }}
+  <div *ngIf="errorMessage" class="alert alert-danger border-0 shadow-sm d-flex align-items-center rounded-3">
+    <i class="bi bi-exclamation-triangle-fill fs-4 me-2"></i>
+    <div>{{ errorMessage }}</div>
   </div>
 
-  <div class="table-responsive card shadow-sm border-0 rounded-4" *ngIf="!loading && products.length">
+  <div class="table-responsive card shadow-sm border-0 rounded-4 overflow-hidden" *ngIf="!loading && products.length">
     <table class="table table-hover align-middle mb-0 text-center">
-      <thead class="table-dark">
+      <thead class="table-dark py-3">
         <tr>
-          <th>الصورة</th>
-          <th>الاسم</th>
-          <th>الفئة</th>
-          <th>السعر</th>
-          <th>التحكم</th>
+          <th class="py-3">الصورة</th>
+          <th class="py-3">الاسم</th>
+          <th class="py-3">الفئة</th>
+          <th class="py-3">السعر</th>
+          <th class="py-3">التحكم</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let product of products">
-          <td>
+          <td class="py-3">
             <img
               [src]="getImageUrl(product.images[0])"
-              alt="product"
-              class="rounded-circle border"
-              style="width: 55px; height: 55px; object-fit: cover;"
+              alt="product image"
+              class="rounded-3 border shadow-sm"
+              style="width: 60px; height: 60px; object-fit: cover;"
+              onerror="this.src='assets/no-image.png';"
             />
           </td>
-          <td class="fw-bold">{{ product.name }}</td>
-          <td><span class="badge rounded-pill bg-light text-dark border">{{ product.category }}</span></td>
-          <td class="text-success fw-bold">{{ product.price | currency:'EGP ' }}</td>
+          <td class="fw-bold text-secondary">{{ product.name }}</td>
           <td>
-            <div class="btn-group gap-2">
-              <button class="btn btn-sm btn-outline-secondary rounded-3" (click)="editProduct(product._id)">
-                تعديل
+            <span class="badge rounded-pill bg-light text-dark border px-3 py-2">
+              {{ product.category }}
+            </span>
+          </td>
+          <td class="text-success fw-bold">
+            {{ product.price | currency:'EGP ':'symbol':'1.0-0' }}
+          </td>
+          <td>
+            <div class="d-flex justify-content-center gap-2">
+              <button class="btn btn-sm btn-outline-primary rounded-3 px-3" (click)="editProduct(product._id)">
+                <i class="bi bi-pencil-square me-1"></i> تعديل
               </button>
-              <button class="btn btn-sm btn-danger rounded-3" (click)="deleteProduct(product._id)">
-                حذف
+              <button class="btn btn-sm btn-danger rounded-3 px-3 shadow-sm" (click)="deleteProduct(product._id)">
+                <i class="bi bi-trash3 me-1"></i> حذف
               </button>
             </div>
           </td>
@@ -54,8 +64,10 @@
     </table>
   </div>
 
-  <div *ngIf="!loading && products.length === 0" class="empty-state text-center py-5">
-    <img src="assets/empty-box.png" alt="No data" style="width: 100px; opacity: 0.5;">
-    <p class="mt-3 fs-5 text-muted">لا توجد منتجات حالياً. ابدأ بإضافة أول منتج!</p>
+  <div *ngIf="!loading && products.length === 0" class="empty-state text-center py-5 bg-white shadow-sm rounded-4">
+    <img src="assets/empty-box.png" alt="No data" style="width: 120px; opacity: 0.6;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4076/4076432.png'">
+    <h4 class="mt-3 text-muted">لا توجد منتجات حالياً</h4>
+    <p class="text-muted small">ابدأ بإضافة أول منتج لمتجرك الآن!</p>
+    <button class="btn btn-outline-primary mt-2" (click)="createProduct()">إضافة منتج</button>
   </div>
 </div>
