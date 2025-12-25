@@ -5,67 +5,63 @@
     </div>
 </div>
 
-<div class="container-fluid py-5" style="direction: ltr;">
-  <div class="row px-xl-5">
-    
-    <div class="col-lg-3 col-md-4">
-      <h5 class="section-title position-relative text-uppercase mb-3">
-        <span class="pr-3" style="color: #31af68;">Filter by Category</span>
-      </h5>
-      <div class="bg-light p-4 mb-30 shadow-sm rounded">
-        <ul class="list-unstyled">
-          <li *ngFor="let cat of categories" 
-              (click)="selectCategory(cat)"
-              class="d-flex align-items-center justify-content-between mb-2 p-2 rounded cursor-pointer"
-              [ngStyle]="{'background-color': selectedCategory === cat ? '#31af6820' : 'transparent', 'color': selectedCategory === cat ? '#31af68' : '#666'}"
-              style="cursor: pointer; transition: 0.3s;">
-            {{cat}}
-            <span class="badge border font-weight-normal" [style.color]="selectedCategory === cat ? '#31af68' : '#999'">+</span>
-          </li>
-        </ul>
-      </div>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-3">
+      <h5 class="fw-bold mb-3" style="color: #31af68;">Categories</h5>
+      <ul class="list-group mb-4 shadow-sm">
+        <li *ngFor="let cat of categories" 
+            (click)="selectCategory(cat)"
+            class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center"
+            [ngStyle]="{'background-color': selectedCategory === cat ? '#31af6820' : 'transparent', 'color': selectedCategory === cat ? '#31af68' : '#333'}"
+            style="cursor: pointer;">
+          {{cat}}
+          <span *ngIf="selectedCategory === cat" class="badge rounded-pill" style="background-color: #31af68;">✓</span>
+        </li>
+      </ul>
 
-      <h5 class="section-title position-relative text-uppercase mb-3 mt-4">
-        <span class="pr-3" style="color: #31af68;">Filter by Price</span>
-      </h5>
-      <div class="bg-light p-4 shadow-sm rounded">
-        <div class="d-flex align-items-center mb-3">
-          <input type="number" class="form-control form-control-sm" placeholder="Min" [(ngModel)]="minPrice" (input)="applyFilters()">
-          <span class="mx-2">-</span>
-          <input type="number" class="form-control form-control-sm" placeholder="Max" [(ngModel)]="maxPrice" (input)="applyFilters()">
+      <h5 class="fw-bold mb-3" style="color: #31af68;">Price Range</h5>
+      <div class="bg-light p-3 rounded shadow-sm">
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <input type="number" class="form-control form-control-sm" placeholder="Min" [(ngModel)]="minPrice" (input)="applyFilters()">
+          </div>
+          <div class="col-6">
+            <input type="number" class="form-control form-control-sm" placeholder="Max" [(ngModel)]="maxPrice" (input)="applyFilters()">
+          </div>
         </div>
-        <button class="btn btn-sm w-100 text-white" style="background-color: #31af68;" (click)="resetFilters()">Reset Filters</button>
+        <button class="btn btn-sm w-100 text-white" style="background-color: #31af68;" (click)="resetFilters()">Clear Filters</button>
       </div>
     </div>
 
-    <div class="col-lg-9 col-md-8">
-      <div class="row pb-3">
-        <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
-            <h4 class="text-dark">{{selectedCategory || 'All Products'}}</h4>
-            <p class="text-muted small">Found {{filteredProducts.length}} items</p>
-        </div>
+    <div class="col-md-9">
+      <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+        <h4 class="fw-bold">{{selectedCategory || 'Our Products'}}</h4>
+        <span class="text-muted">Found {{filteredProducts.length}} items</span>
+      </div>
 
-        <div class="col-lg-4 col-md-6 col-sm-6 pb-1" *ngFor="let product of filteredProducts">
-          <div class="product-item bg-light mb-4 shadow-sm border-0 rounded h-100">
-            <div class="product-img position-relative overflow-hidden bg-white d-flex align-items-center justify-content-center" style="height: 200px; padding: 15px;">
-              <img class="img-fluid w-100 h-100" style="object-fit: contain;" [src]="product.images && product.images[0] ? product.images[0] : 'assets/placeholder.jpg'" alt="">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4" *ngFor="let product of filteredProducts">
+          <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="bg-white d-flex align-items-center justify-content-center p-3" style="height: 200px;">
+              <img [src]="product.images && product.images[0] ? product.images[0] : 'assets/placeholder.jpg'" 
+                   class="img-fluid h-100" 
+                   style="object-fit: contain;" 
+                   alt="{{product.name}}">
             </div>
-            <div class="text-center py-4 px-2">
-              <a class="h6 text-decoration-none text-truncate d-block mb-2" href="">{{product.name}}</a>
-              <div class="d-flex align-items-center justify-content-center mt-2">
-                <h5 style="color: #31af68;">${{product.price}}</h5>
-              </div>
-              <p class="text-muted small mt-2">{{product.category}}</p>
+            <div class="card-body bg-light text-center">
+              <p class="text-muted small mb-1">{{product.category}}</p>
+              <h6 class="card-title text-truncate fw-bold">{{product.name}}</h6>
+              <p class="h5 mt-2" style="color: #31af68;">{{product.price}} جنيه</p>
+              <button class="btn btn-outline-success btn-sm w-100 mt-2 rounded-pill" style="border-color: #31af68; color: #31af68;">View Details</button>
             </div>
           </div>
         </div>
 
         <div class="col-12 text-center py-5" *ngIf="filteredProducts.length === 0">
-           <h3 class="text-muted">No products found...</h3>
-           <button class="btn btn-link" (click)="resetFilters()" style="color: #31af68;">Clear all filters</button>
+          <h5 class="text-muted">No products found for this filter.</h5>
         </div>
       </div>
     </div>
-
   </div>
 </div>

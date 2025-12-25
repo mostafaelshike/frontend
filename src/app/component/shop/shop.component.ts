@@ -5,7 +5,8 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-shop',
-  imports: [CommonModule,FormsModule],
+  standalone: true, // تأكد من وجودها
+  imports: [CommonModule, FormsModule],
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css']
 })
@@ -13,11 +14,10 @@ export class ShopComponent implements OnInit {
   allProducts: any[] = [];
   filteredProducts: any[] = [];
   
-  // الفلاتر
   categories = ["Bandage", "Covid Mask", "Injection", "Medikit", "Personal care", "Sanitizer", "Stethoscope", "Thermometer"];
   selectedCategory: string = '';
   minPrice: number = 0;
-  maxPrice: number = 2000; // قيمة افتراضية عليا
+  maxPrice: number = 5000; 
 
   constructor(private productService: ProductService) {}
 
@@ -28,8 +28,11 @@ export class ShopComponent implements OnInit {
   loadProducts() {
     this.productService.getAllProducts().subscribe({
       next: (res) => {
-        this.allProducts = res;
-        this.filteredProducts = res;
+        // التعديل الجوهري هنا: الوصول لـ res.products لأن الباك إند يرسل Object
+        if (res && res.success && Array.isArray(res.products)) {
+          this.allProducts = res.products;
+          this.filteredProducts = res.products;
+        }
       },
       error: (err) => console.error('Error loading products', err)
     });
@@ -51,7 +54,7 @@ export class ShopComponent implements OnInit {
   resetFilters() {
     this.selectedCategory = '';
     this.minPrice = 0;
-    this.maxPrice = 2000;
+    this.maxPrice = 5000;
     this.filteredProducts = this.allProducts;
   }
 }
