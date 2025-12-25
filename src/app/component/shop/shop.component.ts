@@ -13,12 +13,11 @@ import { FormsModule } from '@angular/forms';
 export class ShopComponent implements OnInit {
   allProducts: any[] = [];
   filteredProducts: any[] = [];
+  selectedProductForModal: any = null; // للمودال
   
-  // قائمة التصنيفات
-  categories = ["Bandage", "Covid Mask", "Injection", "Medikit", "Mom &baby", "Nutraceutical", "Personal care", "Sanitizer", "Stethoscope", "Thermometer"];
+  categories = ["Bandage", "Covid Mask", "Injection", "Medikit", "Personal care", "Sanitizer", "Stethoscope", "Thermometer"];
   
-  // قيم الفلاتر الافتراضية
-  selectedCategory: string = ''; // قيمة فارغة تعني "الكل"
+  selectedCategory: string = ''; 
   minPrice: number = 0;
   maxPrice: number = 10000; 
 
@@ -30,25 +29,22 @@ export class ShopComponent implements OnInit {
 
   loadProducts() {
     this.productService.getAllProducts().subscribe({
-      next: (res) => {
-        // فك تغليف المصفوفة من داخل الـ Object (res.products)
+      next: (res: any) => {
         if (res && res.products) {
           this.allProducts = res.products;
           this.filteredProducts = res.products;
-          
-          // تحديث السعر الأقصى تلقائياً بناءً على أغلى منتج متاح
+          // تعيين أقصى سعر بناءً على المنتجات
           if (this.allProducts.length > 0) {
             this.maxPrice = Math.max(...this.allProducts.map(p => p.price));
           }
         }
       },
-      error: (err) => console.error('خطأ في جلب البيانات:', err)
+      error: (err) => console.error('Error fetching products', err)
     });
   }
 
   applyFilters() {
     this.filteredProducts = this.allProducts.filter(p => {
-      // إذا كانت selectedCategory فارغة، يعتبر الشرط محقق للكل
       const matchCat = this.selectedCategory ? p.category === this.selectedCategory : true;
       const matchPrice = p.price >= this.minPrice && p.price <= this.maxPrice;
       return matchCat && matchPrice;
@@ -56,14 +52,17 @@ export class ShopComponent implements OnInit {
   }
 
   selectCategory(cat: string) {
-    this.selectedCategory = cat; // إذا ضغطنا على All نرسل ''
+    this.selectedCategory = cat;
     this.applyFilters();
+  }
+
+  openQuickView(product: any) {
+    this.selectedProductForModal = product;
   }
 
   resetFilters() {
     this.selectedCategory = '';
     this.minPrice = 0;
-    // إعادة ضبط السعر الأقصى لأعلى سعر موجود
     this.maxPrice = Math.max(...this.allProducts.map(p => p.price)) || 10000;
     this.filteredProducts = this.allProducts;
   }

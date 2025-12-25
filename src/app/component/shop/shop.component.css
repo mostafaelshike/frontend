@@ -129,3 +129,107 @@
   color: white;
   border-color: #31af68;
 }
+
+/* الكارت الأساسي */
+.product-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease-in-out;
+  border: none !important;
+}
+
+/* صندوق الصور وتأثير التبديل */
+.img-container {
+  position: relative;
+  height: 250px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.primary-img, .secondary-img {
+  position: absolute;
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.secondary-img {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.product-card:hover .primary-img {
+  opacity: 0;
+  transform: scale(1.1);
+}
+
+.product-card:hover .secondary-img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* أيقونات الهوفر (العين والسلة) */
+.action-buttons {
+  position: absolute;
+  bottom: -50px; /* مخفية تحت */
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.4s ease;
+  z-index: 5;
+}
+
+.product-card:hover .action-buttons {
+  bottom: 20px; /* تظهر للأعلى */
+}
+
+.btn-action {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: white;
+  color: #31af68;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-action:hover {
+  background: #31af68;
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* فلاتر الفئات */
+.cat-item {
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: 0.3s;
+  margin-bottom: 5px;
+}
+
+.cat-item:hover {
+  background-color: #f0fdf4;
+  color: #31af68;
+}
+
+.cat-active {
+  background-color: #31af68 !important;
+  color: white !important;
+}
+
+/* المودال */
+.modal-content {
+  border: none;
+  overflow: hidden;
+}
