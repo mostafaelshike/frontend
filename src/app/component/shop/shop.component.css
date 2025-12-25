@@ -365,3 +365,62 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+
+/* الكارد الصغير جدًا وبدون بوردر */
+.mini-product-card {
+  background: white;
+  border-radius: 8px; /* زوايا ناعمة خفيفة */
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* شادو خفيف جدًا */
+  transition: all 0.3s ease;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: none !important; /* بدون بوردر خالص */
+}
+
+.mini-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* الصورة أصغر */
+.mini-img-container {
+  height: 180px; /* حجم أصغر من قبل */
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.mini-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* التفاصيل أصغر وأنظف */
+.mini-card-body {
+  padding: 12px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mini-product-name {
+  font-size: 0.9rem; /* اسم أصغر */
+  font-weight: 600;
+  color: #333;
+  margin: 6px 0;
+  line-height: 1.3;
+}
+
+.mini-price {
+  font-size: 1rem; /* سعر أصغر شوية */
+  font-weight: bold;
+  color: #31af68;
+}

@@ -41,32 +41,23 @@
     </div>
 
     <div class="col-lg-9">
-      <img src="assets/collection-banner(1).webp" alt="" style="width: 100%; height: auto;">
-      <div class="row g-4">
-        <div class="col-md-4 col-sm-6" *ngFor="let product of filteredProducts">
-          <div class="product-card card h-100 shadow-sm rounded-4">
-            
-            <div class="img-container">
-              <img [src]="product.images[0]" class="primary-img" alt="">
-              <img [src]="product.images[1] || product.images[0]" class="secondary-img" alt="">
+      <img src="assets/collection-banner (1).webp" alt="" style="width: 100%; height: 200px;border-radius: 20px;">
+      <div class="row g-4" style="margin-top: 30px;">
+       <div class="col-md-4 col-sm-6" *ngFor="let product of filteredProducts">
+  <div class="mini-product-card">
+    <!-- الصورة -->
+    <div class="mini-img-container">
+      <img [src]="product.images[0]" alt="{{product.name}}" class="mini-img">
+    </div>
 
-              <div class="action-buttons">
-                <button class="btn-action" (click)="openQuickView(product)" data-bs-toggle="modal" data-bs-target="#quickViewModal">
-                  <i class="bi bi-eye"></i>
-                </button>
-                <button class="btn-action">
-                  <i class="bi bi-bag-plus"></i>
-                </button>
-              </div>
-            </div>
-
-            <div class="card-body text-center bg-light border-top">
-              <small class="text-muted d-block mb-1">{{product.category}}</small>
-              <h6 class="fw-bold text-truncate">{{product.name}}</h6>
-              <div class="h5 fw-bold" style="color: #31af68;">{{product.price | number}} EGP</div>
-            </div>
-          </div>
-        </div>
+    <!-- التفاصيل -->
+    <div class="mini-card-body">
+      <small class="text-muted d-block">{{product.category}}</small>
+      <h6 class="mini-product-name">{{product.name}}</h6>
+      <div class="mini-price">{{product.price | number}} EGP</div>
+    </div>
+  </div>
+</div>
       </div>
 
       <div class="text-center py-5" *ngIf="filteredProducts.length === 0">
