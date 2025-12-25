@@ -233,3 +233,135 @@
   border: none;
   overflow: hidden;
 }
+/* --- إعدادات الكارت الأساسية --- */
+.product-card {
+  border: none;
+  border-radius: 0; /* شكل حاد وعصري مثل براندات الملابس */
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+/* --- تأثير تبديل الصور --- */
+.image-container {
+  position: relative;
+  overflow: hidden;
+  background-color: #f9f9f9;
+  height: 320px; /* ارتفاع ثابت للصور */
+  cursor: pointer;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.4s ease, transform 0.5s ease;
+}
+
+.hover-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.image-container:hover .hover-img {
+  opacity: 1;
+}
+
+.image-container:hover .main-img {
+  opacity: 0;
+}
+
+/* --- بادج الخصم --- */
+.discount-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: #e32c2b; /* أحمر للتنبيه */
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 4px 10px;
+  z-index: 2;
+  letter-spacing: 1px;
+}
+
+/* --- أيقونة الـ Plus المتحركة --- */
+.plus-icon {
+  position: absolute;
+  bottom: -50px; /* مخفية بالأسفل */
+  right: 15px;
+  background-color: #31af68; /* لونك المفضل */
+  color: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.image-container:hover .plus-icon {
+  bottom: 15px; /* تظهر للأعلى */
+}
+
+.plus-icon:hover {
+  transform: rotate(180deg) scale(1.1);
+  background-color: #268d54;
+}
+
+/* --- تفاصيل الكارت --- */
+.card-body h6 {
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  margin-top: 10px;
+  color: #1c1c1c;
+}
+
+.price-text {
+  color: #31af68;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* --- تنسيق المودال (Quick View) --- */
+.quantity-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  width: fit-content;
+  border-radius: 4px;
+}
+
+.btn-qty {
+  border: none;
+  background: none;
+  padding: 5px 15px;
+  font-size: 1.2rem;
+  transition: 0.2s;
+}
+
+.btn-qty:hover { background-color: #f5f5f5; }
+
+.size-box {
+  border: 1px solid #ccc;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.size-box.selected {
+  background-color: #31af68;
+  color: white;
+  border-color: #31af68;
+}
+
+.size-box.unavailable {
+  text-decoration: line-through;
+  opacity: 0.4;
+  cursor: not-allowed;
+}
