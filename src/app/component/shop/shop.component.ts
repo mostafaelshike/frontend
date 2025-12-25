@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-shop',
-  standalone: true, // تأكد من وجودها
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css']
@@ -14,10 +14,13 @@ export class ShopComponent implements OnInit {
   allProducts: any[] = [];
   filteredProducts: any[] = [];
   
-  categories = ["Bandage", "Covid Mask", "Injection", "Medikit", "Personal care", "Sanitizer", "Stethoscope", "Thermometer"];
-  selectedCategory: string = '';
+  // قائمة التصنيفات
+  categories = ["Bandage", "Covid Mask", "Injection", "Medikit", "Mom &baby", "Nutraceutical", "Personal care", "Sanitizer", "Stethoscope", "Thermometer"];
+  
+  // قيم الفلاتر الافتراضية
+  selectedCategory: string = ''; // قيمة فارغة تعني "الكل"
   minPrice: number = 0;
-  maxPrice: number = 5000; 
+  maxPrice: number = 10000; 
 
   constructor(private productService: ProductService) {}
 
@@ -28,18 +31,24 @@ export class ShopComponent implements OnInit {
   loadProducts() {
     this.productService.getAllProducts().subscribe({
       next: (res) => {
-        // التعديل الجوهري هنا: الوصول لـ res.products لأن الباك إند يرسل Object
-        if (res && res.success && Array.isArray(res.products)) {
+        // فك تغليف المصفوفة من داخل الـ Object (res.products)
+        if (res && res.products) {
           this.allProducts = res.products;
           this.filteredProducts = res.products;
+          
+          // تحديث السعر الأقصى تلقائياً بناءً على أغلى منتج متاح
+          if (this.allProducts.length > 0) {
+            this.maxPrice = Math.max(...this.allProducts.map(p => p.price));
+          }
         }
       },
-      error: (err) => console.error('Error loading products', err)
+      error: (err) => console.error('خطأ في جلب البيانات:', err)
     });
   }
 
   applyFilters() {
     this.filteredProducts = this.allProducts.filter(p => {
+      // إذا كانت selectedCategory فارغة، يعتبر الشرط محقق للكل
       const matchCat = this.selectedCategory ? p.category === this.selectedCategory : true;
       const matchPrice = p.price >= this.minPrice && p.price <= this.maxPrice;
       return matchCat && matchPrice;
@@ -47,14 +56,15 @@ export class ShopComponent implements OnInit {
   }
 
   selectCategory(cat: string) {
-    this.selectedCategory = (this.selectedCategory === cat) ? '' : cat;
+    this.selectedCategory = cat; // إذا ضغطنا على All نرسل ''
     this.applyFilters();
   }
 
   resetFilters() {
     this.selectedCategory = '';
     this.minPrice = 0;
-    this.maxPrice = 5000;
+    // إعادة ضبط السعر الأقصى لأعلى سعر موجود
+    this.maxPrice = Math.max(...this.allProducts.map(p => p.price)) || 10000;
     this.filteredProducts = this.allProducts;
   }
 }
