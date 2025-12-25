@@ -5,78 +5,64 @@
     </div>
 </div>
 
-<div class="container shop-page">
-  <div class="row">
+<div class="container-fluid py-5" style="direction: ltr;">
+  <div class="row px-xl-5">
     
-    <div class="col-lg-3 filter-sidebar">
-      <h5 class="filter-title">Categories</h5>
-      <ul class="p-0">
-        <li class="category-item" 
-            *ngFor="let cat of categories" 
-            [class.active]="selectedCategory === cat"
-            (click)="selectCategory(cat)">
-          {{cat}}
-          <i class="bi bi-chevron-right small"></i>
-        </li>
-      </ul>
+    <div class="col-lg-3 col-md-4">
+      <h5 class="section-title position-relative text-uppercase mb-3">
+        <span class="pr-3" style="color: #31af68;">Filter by Category</span>
+      </h5>
+      <div class="bg-light p-4 mb-30 shadow-sm rounded">
+        <ul class="list-unstyled">
+          <li *ngFor="let cat of categories" 
+              (click)="selectCategory(cat)"
+              class="d-flex align-items-center justify-content-between mb-2 p-2 rounded cursor-pointer"
+              [ngStyle]="{'background-color': selectedCategory === cat ? '#31af6820' : 'transparent', 'color': selectedCategory === cat ? '#31af68' : '#666'}"
+              style="cursor: pointer; transition: 0.3s;">
+            {{cat}}
+            <span class="badge border font-weight-normal" [style.color]="selectedCategory === cat ? '#31af68' : '#999'">+</span>
+          </li>
+        </ul>
+      </div>
 
-      <hr class="my-4">
-
-      <h5 class="filter-title">Price Filter</h5>
-      <div class="price-box">
-        <div class="row g-2">
-          <div class="col-6">
-            <label class="small text-muted">Min</label>
-            <input type="number" [(ngModel)]="minPrice" (input)="applyFilters()">
-          </div>
-          <div class="col-6">
-            <label class="small text-muted">Max</label>
-            <input type="number" [(ngModel)]="maxPrice" (input)="applyFilters()">
-          </div>
+      <h5 class="section-title position-relative text-uppercase mb-3 mt-4">
+        <span class="pr-3" style="color: #31af68;">Filter by Price</span>
+      </h5>
+      <div class="bg-light p-4 shadow-sm rounded">
+        <div class="d-flex align-items-center mb-3">
+          <input type="number" class="form-control form-control-sm" placeholder="Min" [(ngModel)]="minPrice" (input)="applyFilters()">
+          <span class="mx-2">-</span>
+          <input type="number" class="form-control form-control-sm" placeholder="Max" [(ngModel)]="maxPrice" (input)="applyFilters()">
         </div>
-        <button class="btn w-100 mt-3 text-white" 
-                style="background-color: #31af68;" 
-                (click)="applyFilters()">
-          Filter Now
-        </button>
-        <button class="btn btn-link btn-sm w-100 mt-1 text-muted text-decoration-none" (click)="resetFilters()">
-          Reset All
-        </button>
+        <button class="btn btn-sm w-100 text-white" style="background-color: #31af68;" (click)="resetFilters()">Reset Filters</button>
       </div>
     </div>
 
-    <div class="col-lg-9">
-      <div class="d-flex justify-content-between align-items-center mb-4 px-2">
-        <p class="mb-0 text-muted">Showing <b>{{filteredProducts.length}}</b> products</p>
-        <select class="form-select w-auto border-0 bg-light">
-          <option>Sort by: Newest</option>
-          <option>Price: Low to High</option>
-          <option>Price: High to Low</option>
-        </select>
-      </div>
+    <div class="col-lg-9 col-md-8">
+      <div class="row pb-3">
+        <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
+            <h4 class="text-dark">{{selectedCategory || 'All Products'}}</h4>
+            <p class="text-muted small">Found {{filteredProducts.length}} items</p>
+        </div>
 
-      <div class="row">
-        <div class="col-md-4 col-sm-6 mb-4" *ngFor="let product of filteredProducts">
-          <div class="card product-card">
-            <div class="image-wrapper">
-              <img [src]="product.images[0] || 'assets/placeholder.png'" alt="{{product.name}}">
+        <div class="col-lg-4 col-md-6 col-sm-6 pb-1" *ngFor="let product of filteredProducts">
+          <div class="product-item bg-light mb-4 shadow-sm border-0 rounded h-100">
+            <div class="product-img position-relative overflow-hidden bg-white d-flex align-items-center justify-content-center" style="height: 200px; padding: 15px;">
+              <img class="img-fluid w-100 h-100" style="object-fit: contain;" [src]="product.images && product.images[0] ? product.images[0] : 'assets/placeholder.jpg'" alt="">
             </div>
-            <div class="card-body">
-              <p class="small text-uppercase text-muted mb-1" style="font-size: 0.7rem;">{{product.category}}</p>
-              <h6 class="product-name text-truncate">{{product.name}}</h6>
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <span class="product-price">${{product.price}}</span>
-                <button class="btn btn-add btn-sm">
-                  <i class="bi bi-plus-lg"></i>
-                </button>
+            <div class="text-center py-4 px-2">
+              <a class="h6 text-decoration-none text-truncate d-block mb-2" href="">{{product.name}}</a>
+              <div class="d-flex align-items-center justify-content-center mt-2">
+                <h5 style="color: #31af68;">${{product.price}}</h5>
               </div>
+              <p class="text-muted small mt-2">{{product.category}}</p>
             </div>
           </div>
         </div>
-        
+
         <div class="col-12 text-center py-5" *ngIf="filteredProducts.length === 0">
-          <i class="bi bi-search display-1 text-muted"></i>
-          <p class="mt-3">No products found matching your criteria.</p>
+           <h3 class="text-muted">No products found...</h3>
+           <button class="btn btn-link" (click)="resetFilters()" style="color: #31af68;">Clear all filters</button>
         </div>
       </div>
     </div>
