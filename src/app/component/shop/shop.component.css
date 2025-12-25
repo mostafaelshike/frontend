@@ -1,8 +1,131 @@
+/* البانر العلوي */
 .banarshow {
-  padding-top: 80px;
-  padding-bottom: 80px;
-  background: 
-    linear-gradient(rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.37)),
-    url("/assets/breadcrumb.webp") center / cover no-repeat;
+    padding: 60px 5%; /* استخدام النسبة المئوية للجوانب */
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
+                url("/assets/breadcrumb.webp") center / cover no-repeat;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
 }
 
+.containt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.containt h1 { color: #fff; font-size: 28px; margin: 0; }
+.containt p { color: #fff; font-size: 18px; margin: 0; }
+
+/* الألوان الأساسية */
+:root {
+  --main-green: #31af68;
+}
+
+.shop-page {
+  padding: 40px 0;
+  background-color: #ffffff;
+}
+
+/* قسم الفلاتر */
+.filter-sidebar {
+  border-right: 1px solid #eee;
+  padding-right: 20px;
+}
+
+.filter-title {
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+.category-item {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  color: #555;
+}
+
+.category-item:hover, .category-item.active {
+  background-color: #31af6815;
+  color: #31af68;
+  font-weight: 600;
+}
+
+/* خانات السعر */
+.price-box {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.price-box input {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+}
+
+/* كروت المنتجات */
+.product-card {
+  border: none;
+  border-radius: 15px;
+  background-color: #f8f9fa; /* خلفية رمادية فاتحة جداً للكارت */
+  transition: 0.3s;
+  height: 100%;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.image-wrapper {
+  background: white;
+  border-radius: 15px 15px 0 0;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.image-wrapper img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.product-name {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.product-price {
+  color: #31af68;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.btn-add {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  color: #666;
+}
+
+.btn-add:hover {
+  background: #31af68;
+  color: white;
+  border-color: #31af68;
+}
