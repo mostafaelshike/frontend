@@ -20,9 +20,10 @@ export class CreatproductComponent implements OnDestroy {
     inStock: true,
   };
 
-  categories = [
+  categories: string[] = [
     "Bandage", "Covid Mask", "Feature Product", "Injection", "Medikit",
-    "Mom & baby", "Nutraceutical", "Personal care", "Sanitizer", "Stethoscope", "Thermometer"
+    "Mom & baby", "Nutraceutical", "Personal care",
+    "Sanitizer", "Stethoscope", "Thermometer"
   ];
 
   selectedFiles: File[] = [];
@@ -31,75 +32,93 @@ export class CreatproductComponent implements OnDestroy {
 
   constructor(private productService: ProductService) {}
 
+  // 📸 اختيار الصور
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (!input.files) return;
+    if (!input.files || input.files.length === 0) return;
 
     const filesArray = Array.from(input.files);
-    if (this.selectedFiles.length + filesArray.length > 4) {
-      alert('الحد الأقصى هو 4 صور فقط');
+
+    // ⛔ حد أقصى 5 صور (نفس الباك إند)
+    if (this.selectedFiles.length + filesArray.length > 5) {
+      alert('الحد الأقصى هو 5 صور فقط');
       return;
     }
 
     filesArray.forEach(file => {
+      // تأكد إنه صورة
+      if (!file.type.startsWith('image/')) return;
+
       this.selectedFiles.push(file);
       this.previewUrls.push(URL.createObjectURL(file));
     });
+
+    // مهم: إعادة تعيين input علشان يسمح باختيار نفس الصورة مرة تانية
+    input.value = '';
   }
 
+  // ❌ حذف صورة
   removePreview(index: number) {
     URL.revokeObjectURL(this.previewUrls[index]);
-    this.selectedFiles.splice(index, 1);
     this.previewUrls.splice(index, 1);
+    this.selectedFiles.splice(index, 1);
   }
 
+  // 🚀 إرسال المنتج
   onSubmit() {
-    // التحقق من الحقول الإجبارية
     if (!this.product.name || !this.product.price || !this.product.category) {
-      alert('الرجاء إدخال الاسم والسعر والقسم على الأقل.');
+      alert('الرجاء إدخال الاسم والسعر والقسم');
+      return;
+    }
+
+    if (this.selectedFiles.length === 0) {
+      alert('من فضلك اختر صورة واحدة على الأقل');
       return;
     }
 
     this.loading = true;
+
     const formData = new FormData();
 
-    // إضافة البيانات الأساسية
-    formData.append('name', this.product.name);
-    formData.append('description', this.product.description || '');
-    formData.append('price', this.product.price.toString());
+    // 🧾 بيانات المنتج
+    formData.append('name', this.product.name.trim());
+    formData.append('description', this.product.description?.trim() || '');
+    formData.append('price', String(this.product.price));
     formData.append('category', this.product.category);
-    formData.append('inStock', this.product.inStock.toString());
+    formData.append('sectionType', this.product.category); // مهم للباك إند
+    formData.append('inStock', String(this.product.inStock));
 
-    /** * ✅ إصلاح الخطأ: إضافة sectionType
-     * السيرفر يطلب هذا الحقل، سنرسل القسم كنوع للقسم
-     */
-    formData.append('sectionType', this.product.category);
+    // 🖼️ الصور (مهم جدًا الاسم = images)
+    this.selectedFiles.forEach(file => {
+      formData.append('images', file);
+    });
 
-    // إضافة الصور (تأكد أن الباك إند يستخدم 'images' في Multer)
-    if (this.selectedFiles.length > 0) {
-      this.selectedFiles.forEach(file => {
-        formData.append('images', file);
-      });
-    }
-
+    // 📡 API
     this.productService.createProduct(formData).subscribe({
       next: (res) => {
+        console.log('✅ Created:', res);
         this.loading = false;
-        alert('✅ تم إنشاء المنتج بنجاح!');
+        alert('✅ تم إنشاء المنتج بنجاح');
         this.resetForm();
       },
       error: (err) => {
         this.loading = false;
-        console.error('❌ Server Error Details:', err);
-        // إظهار رسالة الخطأ القادمة من Railway
-        const errorMsg = err.error?.message || 'حدث خطأ في السيرفر (500). تأكد من صحة البيانات.';
-        alert(errorMsg);
+        console.error('❌ Server Error:', err);
+        alert(err?.error?.message || 'حدث خطأ في السيرفر');
       }
     });
   }
 
+  // 🔄 إعادة تعيين
   private resetForm() {
-    this.product = { name: '', description: '', price: null, category: '', inStock: true };
+    this.product = {
+      name: '',
+      description: '',
+      price: null,
+      category: '',
+      inStock: true
+    };
+
     this.selectedFiles = [];
     this.previewUrls.forEach(url => URL.revokeObjectURL(url));
     this.previewUrls = [];
