@@ -38,9 +38,19 @@
       </thead>
       <tbody>
         <tr *ngFor="let product of products">
-          <td>
-           <img [src]="getImageUrl(product.images[0])" alt="product image">
-          </td>
+        <td>
+  <ng-container *ngIf="product.images && product.images.length > 0; else noImage">
+    <img [src]="getImageUrl(product.images[0])" 
+         alt="product image"
+         class="img-thumbnail shadow-sm"
+         style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px;">
+  </ng-container>
+
+  <ng-template #noImage>
+    <img src="assets/no-image.png" 
+         style="width: 70px; height: 70px; opacity: 0.5;">
+  </ng-template>
+</td>
           <td class="fw-bold">{{ product.name }}</td>
           <td><span class="badge rounded-pill bg-light text-dark border">{{ product.category }}</span></td>
           <td class="text-success fw-bold">{{ product.price | currency:'EGP ' }}</td>

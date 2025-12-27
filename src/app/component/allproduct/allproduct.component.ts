@@ -46,26 +46,22 @@ export class AllproductComponent implements OnInit {
    * ✅ دالة معالجة روابط الصور (الحل النهائي)
    */
 getImageUrl(img: any): string {
-  if (!img) return 'assets/no-image.png'; // صورة افتراضية لو مفيش صورة
+  if (!img) return 'assets/no-image.png';
 
-  // 1. إذا كان الرابط من Uploadcare (يحتوي على ucarecdn)
+  // إذا كان الرابط من Uploadcare
   if (img.includes('ucarecdn.com')) {
-    // التأكد من وجود /-/preview/ لضمان العرض
-    if (!img.includes('/-/preview/')) {
-      return img.replace('/-/', '/-/preview/-/');
-    }
-    return img;
+    // إذا كان الرابط يحتوي بالفعل على preview، نرجعه كما هو
+    if (img.includes('/-/preview/')) return img;
+    
+    // إذا كان الرابط قديماً ومكسوراً (يفتقد preview)، نقوم بإصلاحه برمجياً
+    let baseUrl = img.split('/-/')[0]; 
+    if (!baseUrl.endsWith('/')) baseUrl += '/';
+    return `${baseUrl}-/preview/-/format/auto/-/quality/smart/`;
   }
 
-  // 2. إذا كان رابطاً كاملاً آخر (مثل Cloudinary أو غيره)
+  // للروابط الأخرى أو المحلية
   if (img.startsWith('http')) return img;
-
-  // 3. إذا كان مساراً محلياً (مثلاً من مجلد uploads)
-  let cleanPath = img.replace(/\\/g, '/');
-  if (!cleanPath.startsWith('/')) {
-    cleanPath = '/' + cleanPath;
-  }
-  return `${this.serverUrl}${cleanPath}`;
+  return `${this.serverUrl}/${img.replace(/\\/g, '/')}`;
 }
 
   createProduct() {
