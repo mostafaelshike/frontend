@@ -39,12 +39,10 @@
       <tbody>
         <tr *ngFor="let product of products">
           <td>
-            <img
-              [src]="getImageUrl(product.images[0])"
-              alt="product"
-              class="rounded-circle border"
-              style="width: 55px; height: 55px; object-fit: cover;"
-            />
+            <img [src]="getImageUrl(product.images && product.images.length > 0 ? product.images[0] : '')" 
+       alt="product image" 
+       class="img-thumbnail" 
+       style="width: 80px; height: 80px; object-fit: cover;">
           </td>
           <td class="fw-bold">{{ product.name }}</td>
           <td><span class="badge rounded-pill bg-light text-dark border">{{ product.category }}</span></td>

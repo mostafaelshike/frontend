@@ -45,26 +45,28 @@ export class AllproductComponent implements OnInit {
   /**
    * ✅ دالة معالجة روابط الصور (الحل النهائي)
    */
-  getImageUrl(img: string): string {
-    if (!img) return 'assets/no-image.png'; 
+getImageUrl(img: any): string {
+  if (!img) return 'assets/no-image.png'; // صورة افتراضية لو مفيش صورة
 
-    // 1. إذا كان رابطاً كاملاً يبدأ بـ http، نرجعه كما هو
-    if (img.startsWith('http')) return img;
-
-    // 2. معالجة مشكلة الـ Backslash (\) وتحويلها لـ (/) لكي يفهمها الـ Browser
-    // هذه الخطوة تحل مشكلة المسارات القادمة من ويندوز (uploads\image.jpg)
-    let cleanPath = img.replace(/\\/g, '/');
-
-    // 3. التأكد من وجود سلاش واحد فقط في البداية
-    if (!cleanPath.startsWith('/')) {
-      cleanPath = '/' + cleanPath;
+  // 1. إذا كان الرابط من Uploadcare (يحتوي على ucarecdn)
+  if (img.includes('ucarecdn.com')) {
+    // التأكد من وجود /-/preview/ لضمان العرض
+    if (!img.includes('/-/preview/')) {
+      return img.replace('/-/', '/-/preview/-/');
     }
-
-    // 4. دمج الرابط النهائي
-    const finalUrl = `${this.serverUrl}${cleanPath}`;
-    
-    return finalUrl;
+    return img;
   }
+
+  // 2. إذا كان رابطاً كاملاً آخر (مثل Cloudinary أو غيره)
+  if (img.startsWith('http')) return img;
+
+  // 3. إذا كان مساراً محلياً (مثلاً من مجلد uploads)
+  let cleanPath = img.replace(/\\/g, '/');
+  if (!cleanPath.startsWith('/')) {
+    cleanPath = '/' + cleanPath;
+  }
+  return `${this.serverUrl}${cleanPath}`;
+}
 
   createProduct() {
     this.router.navigate(['/admin/createproduct']);
