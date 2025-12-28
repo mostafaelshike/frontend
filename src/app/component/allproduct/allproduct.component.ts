@@ -50,20 +50,27 @@ getImageUrl(img: any): string {
 
   // إذا كان الرابط من Uploadcare
   if (img.includes('ucarecdn.com')) {
-    // إذا كان الرابط يحتوي بالفعل على preview، نرجعه كما هو
-    if (img.includes('/-/preview/')) return img;
-    
-    // إذا كان الرابط قديماً ومكسوراً (يفتقد preview)، نقوم بإصلاحه برمجياً
-    let baseUrl = img.split('/-/')[0]; 
-    if (!baseUrl.endsWith('/')) baseUrl += '/';
-    return `${baseUrl}-/preview/-/format/auto/-/quality/smart/`;
+    // لو الرابط فيه بالفعل تحسينات كافية (resize أو preview مع أبعاد)، نرجعه كما هو
+    if (img.includes('/-/resize/') || img.includes('/-/preview/') && img.match(/\/\d+x\d+\//)) {
+      return img;
+    }
+
+    // نستخرج الـ UUID ونبني رابط مضمون وسريع
+    const uuidMatch = img.match(/ucarecdn\.com\/([a-f0-9\-]+)\//);
+    if (uuidMatch) {
+      const uuid = uuidMatch[1];
+      // أفضل رابط: حجم مناسب + تحسين تلقائي + webp دعم
+      return `https://ucarecdn.com/${uuid}/-/resize/400x400/-/format/auto/-/quality/smart/`;
+    }
+
+    // fallback لو حصل خطأ في الاستخراج
+    return img;
   }
 
-  // للروابط الأخرى أو المحلية
+  // روابط قديمة محلية أو خارجية
   if (img.startsWith('http')) return img;
   return `${this.serverUrl}/${img.replace(/\\/g, '/')}`;
 }
-
   createProduct() {
     this.router.navigate(['/admin/createproduct']);
   }
