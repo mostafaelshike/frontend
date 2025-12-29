@@ -74,81 +74,121 @@
 
 <section>
   <div class="container">
-  <div class="row g-4" style="margin-top: 30px;">
+    <div class="row g-4" style="margin-top: 30px;">
 
-    <div
-      class="col-lg-3 col-md-4 col-sm-6"
-      *ngFor="let product of productsList"
-    >
-      <div class="mini-product-card">
+      <div
+        class="col-lg-3 col-md-4 col-sm-6"
+        *ngFor="let product of productsList"
+      >
+        <div class="mini-product-card">
 
-        <!-- الصورة -->
-        <div class="mini-img-container">
-          <img
-            [src]="product.images[0]"
-            [alt]="product.name"
-            class="mini-img"
-          />
-        </div>
+            <div class="mini-img-container">
+              <img
+                [src]="product.images[0]"
+                class="mini-img main-img">
 
-        <!-- التفاصيل -->
-        <div class="mini-card-body">
-          <small class="text-muted d-block">
-            {{ product.category }}
-          </small>
+              <img
+                *ngIf="product.images.length > 1"
+                [src]="product.images[1]"
+                class="mini-img hover-img">
 
-          <h6 class="mini-product-name">
-            {{ product.name }}
-          </h6>
+              <!-- 👁️ Eye only -->
+              <div class="icon-card">
+                <!-- 👁️ -->
+                <div class="eye-icon" (click)="openQuickView(product)">
+                  <i class="bi bi-eye"></i>
+                </div>
 
-          <div class="mini-price">
-            {{ product.price | number }} EGP
+                <!-- 🛒 شكل فقط -->
+                <div class="bag-icon">
+                  <i class="bi bi-bag-dash"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="mini-card-body d-flex justify-content-between mt-3" >
+              <div >
+                <h6 class="mini-product-name">{{ product.name }}</h6>
+                <div class="mini-price">
+                  {{ product.price | number }} EGP
+                </div>
+              </div>
+                <div class="details-icon"> <i class="bi bi-bag-dash"></i> </div>
+              
+            </div>
+
           </div>
-        </div>
-
       </div>
+
     </div>
 
+    <!-- زر الذهاب لصفحة المشتريات -->
+    <div class="text-center mt-5" style="margin-bottom: 20px;">
+      <a routerLink="shop" class="btn btn-success px-5 py-2">
+        عرض كل المنتجات
+      </a>
+    </div>
   </div>
 
-  <!-- زر الذهاب لصفحة المشتريات -->
-  <div class="text-center mt-5" style="margin-bottom: 20px;">
-    <a routerLink="shop" class="btn btn-success px-5 py-2">
-      عرض كل المنتجات
-    </a>
-  </div>
-</div>
-
-<div class="modal fade" id="quickViewModal" tabindex="-1" aria-hidden="true">
+  <!-- المودال -->
+ <div class="modal fade" id="productModal" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content rounded-4 border-0 shadow-lg" *ngIf="selectedProductForModal">
-      <div class="modal-header border-0">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+    <div class="modal-content">
       <div class="modal-body p-4">
-        <div class="row align-items-center">
-          <div class="col-md-5 text-center">
-            <img [src]="selectedProductForModal.images[0]" class="img-fluid rounded-4 shadow-sm" style="max-height: 350px;">
-          </div>
-          <div class="col-md-7">
-            <span class="badge px-3 py-2 mb-2" style="background: #31af6820; color: #31af68;">{{selectedProductForModal.category}}</span>
-            <h2 class="fw-bold">{{selectedProductForModal.name}}</h2>
-            <h3 class="fw-bold mb-4" style="color: #31af68;">{{selectedProductForModal.price | number}} EGP</h3>
-            <p class="text-muted lh-lg">{{selectedProductForModal.description || 'Quality medical product selected for your healthcare needs.'}}</p>
-            
-            <div class="d-flex gap-3 mt-5">
-              <input type="number" class="form-control text-center" style="width: 70px;" value="1">
-              <button class="btn btn-success flex-grow-1 py-2 rounded-pill shadow-sm" style="background-color: #31af68; border: none;">
-                Add to Shopping Cart
-              </button>
+
+        <div class="row">
+
+          <!-- الصورة الكبيرة + Thumbnails -->
+          <div class="col-md-6 text-center">
+
+            <!-- الصورة الكبيرة -->
+            <img 
+              [src]="selectedProduct?.images[selectedImageIndex]" 
+              class="d-block w-100 rounded mb-2" 
+              style="max-height:420px; object-fit:cover"
+            >
+
+            <!-- الصور المصغرة -->
+            <div class="d-flex justify-content-center gap-2 mt-2">
+              <img 
+                *ngFor="let img of selectedProduct?.images; let i = index"
+                [src]="img"
+                (click)="selectedImageIndex = i"
+                [class.border]="selectedImageIndex === i"
+                style="width:60px; height:60px; object-fit:cover; cursor:pointer; border-radius:4px;"
+              >
             </div>
           </div>
+
+          <!-- التفاصيل -->
+          <div class="col-md-6">
+            <h4>{{ selectedProduct?.name }}</h4>
+            <p class="text-danger fs-5">
+              {{ selectedProduct?.price | number }} EGP
+            </p>
+
+            <hr>
+
+            <p>
+              Category: <strong>{{ selectedProduct?.category }}</strong>
+            </p>
+
+            <p>
+              Collection: <strong>{{ selectedProduct?.subcategory }}</strong>
+            </p>
+
+            <!-- لو حبيت تضيف شراء ممكن تحطه هنا -->
+          </div>
+
         </div>
+
       </div>
     </div>
   </div>
 </div>
+
 </section>
+
 
 
 

@@ -17,7 +17,7 @@ register();
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, CarouselModule,RouterLink],
+  imports: [CommonModule, CarouselModule, RouterLink],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -121,7 +121,8 @@ export class HomeComponent implements OnInit {
   // Products (8 فقط)
   // ===============================
   productsList: any[] = [];
-  selectedProductForModal: any = null;
+  selectedProduct: any = null;
+  selectedImageIndex: number = 0;
 
   // ===============================
   // Lifecycle
@@ -150,8 +151,18 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  openQuickView(product: any) {
-    this.selectedProductForModal = product;
+  // ===============================
+  // فتح مودال المنتج + تهيئة الصورة الكبيرة
+  // ===============================
+  openQuickView(product: any): void {
+    this.selectedProduct = product;
+    this.selectedImageIndex = 0; // أول صورة عند فتح المودال
+
+    const modalEl = document.getElementById('productModal');
+    if (modalEl) {
+      const modal = new (window as any).bootstrap.Modal(modalEl);
+      modal.show();
+    }
   }
 
   // ===============================
@@ -183,7 +194,5 @@ export class HomeComponent implements OnInit {
       });
     }
   }
+
 }
-
-
-

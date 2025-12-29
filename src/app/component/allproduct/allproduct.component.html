@@ -40,10 +40,7 @@
         <tr *ngFor="let product of products">
         <td>
   <ng-container *ngIf="product.images && product.images.length > 0; else noImage">
-    <img [src]="getImageUrl(product.images[0])" 
-         alt="product image"
-         class="img-thumbnail shadow-sm"
-         style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px;">
+    <img [src]="getImageUrl(product.images[0])" ... >
   </ng-container>
 
   <ng-template #noImage>

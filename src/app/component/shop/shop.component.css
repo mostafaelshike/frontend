@@ -367,60 +367,134 @@
 }
 
 
-/* الكارد الصغير جدًا وبدون بوردر */
-.mini-product-card {
-  background: white;
-  border-radius: 8px; /* زوايا ناعمة خفيفة */
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* شادو خفيف جدًا */
-  transition: all 0.3s ease;
-  text-align: center;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border: none !important; /* بدون بوردر خالص */
-}
 
-.mini-product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-}
 
-/* الصورة أصغر */
+/* card */
+
 .mini-img-container {
-  height: 180px; /* حجم أصغر من قبل */
-  background: #f8f9fa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+   transition: all 0.4s ease;
 }
 
 .mini-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+  display: block;
+  transition: opacity 0.4s ease-in-out;
 }
 
-/* التفاصيل أصغر وأنظف */
-.mini-card-body {
-  padding: 12px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.main-img {
+  position: relative;
+  opacity: 1;
+  z-index: 2;
 }
 
-.mini-product-name {
-  font-size: 0.9rem; /* اسم أصغر */
-  font-weight: 600;
-  color: #333;
-  margin: 6px 0;
-  line-height: 1.3;
+.hover-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 1;
 }
 
-.mini-price {
-  font-size: 1rem; /* سعر أصغر شوية */
-  font-weight: bold;
+/* التغيير يحصل بس لما تعمل hover على الـ div */
+.mini-img-container:hover .main-img {
+  opacity: 0;
+}
+
+.mini-img-container:hover .hover-img {
+  opacity: 1;
+}
+.mini-product-name{
+  color: #333333;
+  font-size: 16px;
+  font-size: 500;
+  transition: color 0.2s ease-in-out;
+}
+.mini-product-name:hover{
+  color:#31af68 ;
+}
+.mini-price{
   color: #31af68;
+  font-weight: 700;
+  font-size: 16px;
+  
 }
+.icon-card {
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  bottom: 0;
+  transition: all 0.4s ease;
+  z-index: 5;
+  transform: translate(0px,1000px);
+  transition: all 0.4s ease;
+  }
+  .mini-img-container:hover .icon-card {
+    transform: translate(0px,0px); 
+   }
+
+.eye-icon{
+  border-left: none;
+  margin-left: 0;
+  width: 50%;
+  border: none;
+    border-top: 1px solid rgb(128 128 128 / 20%);
+    display: flex;
+    color: #808080;
+  align-items: center;
+  justify-content: center;
+   transition: background-color 0.2s ease-in-out;
+  
+}
+.eye-icon:hover{
+  background-color:#31af68 ;
+  color: white;
+  
+}
+
+
+.bag-icon{
+  border-left: 1px solid rgba(128, 128, 128, 0.123);
+  width: 50%;
+  
+    border-top: 1px solid rgb(128 128 128 / 20%);
+    display: flex;
+    color: #808080;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.bag-icon:hover{
+  background-color:#31af68 ;
+  color: white;
+  
+}
+.details-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #808080;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  transition: color 0.2s ease-in-out;
+  border: solid 1px rgba(128, 128, 128, 0.336);
+}
+.details-icon:hover{
+  background-color:#31af68 ;
+  color: white;
+  
+}
+.details-icon i{
+  font-size: 15px;
+  font-size: 700;
+  font-weight: bold;
+}
+

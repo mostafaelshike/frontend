@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../service/product.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProductService } from '../../service/product.service';
 
 @Component({
   selector: 'app-shop',
@@ -11,15 +11,28 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
+
   allProducts: any[] = [];
   filteredProducts: any[] = [];
-  selectedProductForModal: any = null; // للمودال
-  
-  categories = ["Bandage", "Covid Mask", "Injection", "Medikit", "Personal care", "Sanitizer", "Stethoscope", "Thermometer"];
-  
-  selectedCategory: string = ''; 
+
+  // المودال
+  selectedProduct: any = null;
+  selectedImageIndex: number = 0;
+
+  categories = [
+    "Bandage",
+    "Covid Mask",
+    "Injection",
+    "Medikit",
+    "Personal care",
+    "Sanitizer",
+    "Stethoscope",
+    "Thermometer"
+  ];
+
+  selectedCategory: string = '';
   minPrice: number = 0;
-  maxPrice: number = 10000; 
+  maxPrice: number = 10000;
 
   constructor(private productService: ProductService) {}
 
@@ -30,23 +43,24 @@ export class ShopComponent implements OnInit {
   loadProducts() {
     this.productService.getAllProducts().subscribe({
       next: (res: any) => {
-        if (res && res.products) {
+        if (res?.products) {
           this.allProducts = res.products;
           this.filteredProducts = res.products;
-          // تعيين أقصى سعر بناءً على المنتجات
-          if (this.allProducts.length > 0) {
-            this.maxPrice = Math.max(...this.allProducts.map(p => p.price));
-          }
+          this.maxPrice = Math.max(...this.allProducts.map(p => p.price));
         }
       },
-      error: (err) => console.error('Error fetching products', err)
+      error: err => console.error(err)
     });
   }
 
   applyFilters() {
     this.filteredProducts = this.allProducts.filter(p => {
-      const matchCat = this.selectedCategory ? p.category === this.selectedCategory : true;
+      const matchCat = this.selectedCategory
+        ? p.category === this.selectedCategory
+        : true;
+
       const matchPrice = p.price >= this.minPrice && p.price <= this.maxPrice;
+
       return matchCat && matchPrice;
     });
   }
@@ -56,14 +70,28 @@ export class ShopComponent implements OnInit {
     this.applyFilters();
   }
 
-  openQuickView(product: any) {
-    this.selectedProductForModal = product;
-  }
-
   resetFilters() {
     this.selectedCategory = '';
     this.minPrice = 0;
     this.maxPrice = Math.max(...this.allProducts.map(p => p.price)) || 10000;
     this.filteredProducts = this.allProducts;
   }
+
+  // فتح المودال مع التحكم بالصور المصغرة
+  openQuickView(product: any): void {
+    this.selectedProduct = product;
+    this.selectedImageIndex = 0; // أول صورة عند فتح المودال
+
+    const modalEl = document.getElementById('productModal');
+    if (modalEl) {
+      const modal = new (window as any).bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  }
+
+  // اختيار صورة من الـ thumbnails
+  selectImage(index: number) {
+    this.selectedImageIndex = index;
+  }
+
 }

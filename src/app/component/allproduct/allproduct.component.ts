@@ -15,9 +15,6 @@ export class AllproductComponent implements OnInit {
   products: any[] = [];
   loading = true;
   errorMessage = '';
-  
-  // ✅ رابط السيرفر على ريلواي
-  private serverUrl = 'https://backend-production-c9008.up.railway.app';
 
   constructor(private productService: ProductService, private router: Router) {}
 
@@ -29,7 +26,6 @@ export class AllproductComponent implements OnInit {
     this.loading = true;
     this.productService.getAllProducts().subscribe({
       next: (res: any) => {
-        // استخراج المصفوفة حسب هيكلة الباك إند
         this.products = res.products || res;
         this.loading = false;
         console.log('📦 المنتجات المحملة:', this.products);
@@ -43,34 +39,17 @@ export class AllproductComponent implements OnInit {
   }
 
   /**
-   * ✅ دالة معالجة روابط الصور (الحل النهائي)
+   * ✅ دالة عرض الصور (مع Cloudinary - أحسن حل)
    */
-getImageUrl(img: any): string {
-  if (!img) return 'assets/no-image.png';
-
-  // إذا كان الرابط من Uploadcare
-  if (img.includes('ucarecdn.com')) {
-    // لو الرابط فيه بالفعل تحسينات كافية (resize أو preview مع أبعاد)، نرجعه كما هو
-    if (img.includes('/-/resize/') || img.includes('/-/preview/') && img.match(/\/\d+x\d+\//)) {
-      return img;
+  getImageUrl(img: any): string {
+    if (!img || typeof img !== 'string') {
+      return 'assets/no-image.png';
     }
 
-    // نستخرج الـ UUID ونبني رابط مضمون وسريع
-    const uuidMatch = img.match(/ucarecdn\.com\/([a-f0-9\-]+)\//);
-    if (uuidMatch) {
-      const uuid = uuidMatch[1];
-      // أفضل رابط: حجم مناسب + تحسين تلقائي + webp دعم
-      return `https://ucarecdn.com/${uuid}/-/resize/400x400/-/format/auto/-/quality/smart/`;
-    }
-
-    // fallback لو حصل خطأ في الاستخراج
+    // Cloudinary رابط كامل ومحسن تلقائيًا
     return img;
   }
 
-  // روابط قديمة محلية أو خارجية
-  if (img.startsWith('http')) return img;
-  return `${this.serverUrl}/${img.replace(/\\/g, '/')}`;
-}
   createProduct() {
     this.router.navigate(['/admin/createproduct']);
   }
