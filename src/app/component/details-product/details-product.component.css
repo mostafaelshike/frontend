@@ -38,9 +38,9 @@
 }
 
 .active-thumb {
-  border-color: #45fd0d !important;
+  border-color: #31af68 !important;
   border-width: 2px !important;
-  box-shadow: 0 4px 8px rgba(53, 253, 13, 0.2);
+  box-shadow: 0 4px 8px #31af68;
 }
 
 /* الألوان والبادجات */
