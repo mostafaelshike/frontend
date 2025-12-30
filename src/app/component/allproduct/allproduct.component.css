@@ -28,52 +28,62 @@
 .add-btn:hover { background-color: #268c52; transform: translateY(-2px); }
 
 .product-img {
-    width: 60px;
-    height: 60px;
+    width: 30px;
+    height: 30px;
     object-fit: cover;
     border-radius: 8px;
 }
 
 /* تحسينات الجدول للشاشات الصغيرة */
+/* الشاشات التي أصغر من 768px (الموبايل) */
 @media (max-width: 767.98px) {
+    /* إخفاء الهيدر تماماً */
     .custom-responsive-table thead {
-        display: none; /* إخفاء الهيدر في الموبايل */
+        display: none;
     }
 
+    /* تحويل كل صف (Row) إلى كارت منفصل */
     .custom-responsive-table tr {
-        display: block;
-        margin-bottom: 1rem;
-        border: 1px solid #eee;
+        display: flex;
+        flex-direction: column; /* جعل العناصر تحت بعضها بالطول */
+        margin-bottom: 20px;
+        border: 1px solid #dee2e6;
         border-radius: 15px;
-        padding: 10px;
         background: #fff;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
 
+    /* تنسيق الخلايا لتظهر كسطر يحتوي على عنوان وقيمة */
     .custom-responsive-table td {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-between; /* العنوان يمين والقيمة يسار */
         align-items: center;
-        text-align: left;
-        padding: 0.5rem 1rem;
-        border-bottom: 1px solid #f8f9fa;
+        padding: 10px 5px;
+        border-bottom: 1px dashed #eee;
+        text-align: right;
     }
 
+    /* إزالة الخط السفلي من آخر عنصر في الكارت */
     .custom-responsive-table td:last-child {
-        border-bottom: 0;
+        border-bottom: none;
+        justify-content: center; /* توسيط أزرار التحكم */
+        padding-top: 15px;
     }
 
-    /* إظهار اسم العمود قبل القيمة في الموبايل */
+    /* إضافة عنوان لكل معلومة باستخدام خاصية data-label */
     .custom-responsive-table td::before {
         content: attr(data-label);
         font-weight: bold;
-        color: #6c757d;
-        margin-left: auto; /* ليدفع النص لليمين في اللغة العربية */
+        color: #2c3e50;
+        font-size: 0.9rem;
     }
-    
+
+    /* تكبير صورة المنتج في الموبايل */
     .product-img {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto; /* توسيط الصورة */
     }
 }
-
 .loader-container { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; }
