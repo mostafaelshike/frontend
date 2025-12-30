@@ -73,7 +73,7 @@
           class="col-md-4 col-sm-6"
           *ngFor="let product of filteredProducts">
 
-          <div class="mini-product-card">
+          <div class="mini-product-card" (click)="goToDetails(product._id)">
 
             <div class="mini-img-container">
               <img

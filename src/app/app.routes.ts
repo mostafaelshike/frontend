@@ -5,6 +5,7 @@ import { BlogComponent } from './component/blog/blog.component';
 import { AboutComponent } from './component/about/about.component';
 import { LoginComponent } from './component/login/login.component';
 import { CreatAcountComponent } from './component/creat-acount/creat-acount.component';
+import { DetailsProductComponent } from './component/details-product/details-product.component';
 //صفحات الادمن
 import { CreatproductComponent } from './component/creatproduct/creatproduct.component';
 import { UpdatproductComponent } from './component/updatproduct/updatproduct.component';
@@ -18,6 +19,8 @@ export const routes: Routes = [
      {path:'about',component:AboutComponent},
      {path:'login', component:LoginComponent},
      {path:'create-account', component:CreatAcountComponent},
+     { path: 'detailsproduct/:id', component: DetailsProductComponent },
+     
      {
           path:'admin',
           canActivate:[AdminGuard],
