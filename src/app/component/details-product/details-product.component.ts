@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../service/product.service';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-// تعريف bootstrap للـ TypeScript
-declare var bootstrap: any;
 @Component({
   selector: 'app-details-product',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './details-product.component.html',
   styleUrl: './details-product.component.css'
@@ -17,15 +15,11 @@ export class DetailsProductComponent implements OnInit {
   product: any = null;
   selectedImage: string = '';
   qty: number = 1;
-  selectedSize: string = '';
-  btnHover: boolean = false;
-
-  
+  loading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService,
-    
+    private productService: ProductService
   ) {}
 
   ngOnInit(): void {
@@ -33,26 +27,30 @@ export class DetailsProductComponent implements OnInit {
     if (id) {
       this.productService.getProductById(id).subscribe({
         next: (res) => {
-          this.product = res;
-          this.selectedImage = res.images?.[0] || 'assets/placeholder.png';
+          // الباك إند يرسل المنتج داخل كائن product
+          this.product = res.product;
+          if (this.product && this.product.images?.length > 0) {
+            this.selectedImage = this.product.images[0];
+          }
+          this.loading = false;
         },
-        error: (err: any) => console.error(err)
+        error: (err) => {
+          console.error('Error fetching product:', err);
+          this.loading = false;
+        }
       });
     }
   }
 
-  // اختيار الصورة الصغيرة
   selectImage(img: string) {
     this.selectedImage = img;
   }
 
-  // زيادة / نقص الكمية
   increaseQty() { this.qty++; }
   decreaseQty() { if (this.qty > 1) this.qty--; }
 
-  // اختيار المقاس
-
-
- 
-
+  addToCart() {
+    console.log('تمت الإضافة للسلة:', { product: this.product.name, quantity: this.qty });
+    // هنا يمكنك استدعاء CartService لاحقاً
   }
+}

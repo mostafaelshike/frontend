@@ -1,20 +1,74 @@
-<div class="container">
-    <div class="row g-4"> 
-        <div class="col-12 col-md-6 col-xl-6">
-           <div >
-            <img [src]="'http://localhost:5000' + selectedImage" class="img-fluid main-img">
+<div class="container my-5" *ngIf="!loading; else loader">
+  <div class="row g-5" *ngIf="product">
+    
+    <div class="col-lg-6">
+      <div class="main-image-viewport shadow-sm rounded-4 overflow-hidden mb-3 bg-white border">
+        <img [src]="selectedImage" class="img-fluid main-img-zoom" [alt]="product.name">
       </div>
-
-      <img *ngFor="let img of product.images" 
-           [src]="'http://localhost:5000' + img" 
-           [class.selected]="selectedImage === img"
-           (click)="selectImage(img)"
-           class="small-img mb-2">
+      
+      <div class="d-flex gap-2 thumb-slider pb-2">
+        <div *ngFor="let img of product.images" 
+             (click)="selectImage(img)"
+             [class.active-thumb]="selectedImage === img"
+             class="thumb-item rounded-3 border">
+          <img [src]="img" class="img-fluid rounded-2">
         </div>
-
-        <div class="col-12 col-md-6 col-xl-6">
-            <div class="p-3 border bg-light">المحتوى الثاني</div>
-        </div>
-
+      </div>
     </div>
+
+    <div class="col-lg-6" dir="rtl">
+      <div class="ps-lg-4 text-end">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-2">
+            <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">الرئيسية</a></li>
+            <li class="breadcrumb-item active text-primary">{{ product.category }}</li>
+          </ol>
+        </nav>
+
+        <h1 class="fw-bold text-dark mb-2 display-6">{{ product.name }}</h1>
+        
+        <div class="d-flex align-items-center gap-3 mb-4 justify-content-start">
+          <span class="badge py-2 px-3" [ngClass]="product.inStock ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'">
+            <i class="bi" [ngClass]="product.inStock ? 'bi-check-circle' : 'bi-x-circle'"></i>
+            {{ product.inStock ? 'متوفر حالياً' : 'غير متوفر' }}
+          </span>
+          <span class="text-muted small border-start ps-3">المجموعة: {{ product.sectionType }}</span>
+        </div>
+
+        <h2 class="text-primary fw-bold mb-4">{{ product.price | currency:'EGP ' }}</h2>
+        
+        <div class="product-desc mb-4">
+          <h6 class="fw-bold border-bottom pb-2 mb-3">عن المنتج:</h6>
+          <p class="text-secondary lh-lg">{{ product.description }}</p>
+        </div>
+
+        <hr class="my-4 opacity-25">
+
+        <div class="row g-3 align-items-end">
+          <div class="col-sm-4">
+            <label class="form-label small fw-bold text-muted">الكمية:</label>
+            <div class="input-group border rounded-3 overflow-hidden shadow-sm">
+              <button class="btn btn-light" (click)="decreaseQty()" type="button">-</button>
+              <input type="text" class="form-control border-0 text-center bg-white fw-bold" [value]="qty" readonly>
+              <button class="btn btn-light" (click)="increaseQty()" type="button">+</button>
+            </div>
+          </div>
+          <div class="col-sm-8">
+            <button class="btn btn-dark btn-lg w-100 py-3 rounded-3 shadow-sm hover-effect" 
+                    [disabled]="!product.inStock"
+                    (click)="addToCart()">
+              <i class="bi bi-cart-plus-fill ms-2"></i> إضافة إلى السلة
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #loader>
+  <div class="container my-5 py-5 text-center">
+    <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+    <h5 class="text-muted fw-light">جاري جلب بيانات المنتج...</h5>
+  </div>
+</ng-template>
