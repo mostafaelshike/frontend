@@ -97,16 +97,94 @@
 
 <div class="sidebar-overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
 
+<!-- 📱 القائمة الجانبية -->
 <div class="sidebar" [class.open]="isMenuOpen">
-  <div class="sidebar-header d-flex p-3 border-bottom">
-    <img src="assets/logo.webp" alt="Logo" style="width: 100px;">
-    <button class="btn ms-auto" (click)="closeMenu()"><i class="bi bi-x-lg"></i></button>
+  <div class="sidebar-header">
+    <img src="assets/logo.webp" alt="Logo" style="width: 120px; height: 30px;">
+    <button class="btn close-btn ms-auto" (click)="closeMenu()">
+      <i class="bi bi-x-lg"></i>
+    </button>
   </div>
-  <div class="sidebar-content p-3">
-    <ul class="list-unstyled">
-      <li class="mb-3"><a routerLink="/" (click)="closeMenu()" class="text-decoration-none text-dark fw-bold"><i class="bi bi-house me-2"></i> Home</a></li>
-      <li class="mb-3"><a routerLink="/shop" (click)="closeMenu()" class="text-decoration-none text-dark fw-bold"><i class="bi bi-bag me-2"></i> Shop</a></li>
-      </ul>
+
+  <div class="sidebar-content">
+
+    <!-- Free Shipping Banner -->
+    <div style="background-color:#f7f7f7; padding: 12px 15px; margin-bottom: 15px;">
+      <h4 style="color: #333333; font-size: 16px; margin:0;">
+        Free shipping on orders <span style="color: #28a745;">$99</span>
+      </h4>
+    </div>
+
+    <!-- Navigation Links -->
+    <ul class="sidebar-nav list-unstyled" style="margin-bottom: 80px;">
+
+     <li class="nav-item"><a class="nav-link active me-3" routerLink="/" style="color: #31af68; font-size: 18px; font-weight: 500;">Home</a></li>
+        <li class="nav-item"><a class="nav-link me-3" routerLink="/shop" style="color: #333; font-size: 18px; font-weight: 500;">Shop</a></li>
+     
+      
+     <!-- Pages (Accordion) -->
+<li class="nav-item mb-2">
+  <div class="accordion" id="pagesAccordion">
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed shadow-none d-flex align-items-center"
+                type="button" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#collapsePages"
+                style="background:none; color:#333; font-size:18px; font-weight:600; padding:8px 0;">
+
+          <!-- النص -->
+          <span style="margin-left: 78px;">Pages</span>
+
+          <!-- السهم ثابت -->
+          <i class="bi bi-chevron-down" style="font-size : 18px; margin-left: 5px; transition:none;"></i>
+
+        </button>
+      </h2>
+
+      <div id="collapsePages" class="accordion-collapse collapse"
+           data-bs-parent="#pagesAccordion">
+        <div class="accordion-body pt-0">
+          <a href="#" class="d-block text-decoration-none text-dark mb-3">About Us</a>
+          <a href="#" class="d-block text-decoration-none text-dark mb-3">FAQ</a>
+          <a href="#" class="d-block text-decoration-none text-dark mb-3">Privacy Policy</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</li>
+
+      <!-- Contact Us -->
+      <li class="nav-item mb-2">
+        <a href="#" class="nav-link" 
+           style="color: #333; font-size: 18px; font-weight: 500; text-decoration:none;">
+          Contact Us
+        </a>
+      </li>
+
+    </ul>
+
+    <!-- Fixed Bottom Contact Info -->
+    <div style="position: fixed;bottom: 0px;">
+      
+      <a href="tel:+12109862564" class="d-flex align-items-center text-decoration-none mb-3">
+        <i class="bi bi-headphones me-3" style="font-size:40px; color:#31af68;"></i>
+        <div>
+          <small style="color:#31af68; font-weight:600; font-size:12px;">Contact</small>
+          <h6 class="mb-0" style="color:#333; font-size:16px;">(210)-986-2564</h6>
+        </div>
+      </a>
+
+      <a href="#" class="d-flex align-items-center text-decoration-none">
+        <i class="bi bi-clock me-3" style="font-size:40px; color:#31af68;"></i>
+        <div>
+          <small style="color:#31af68; font-weight:600; font-size:12px;">Mon–Fri</small>
+          <h6 class="mb-0" style="color:#333; font-size:16px;">24/7 Hours</h6>
+        </div>
+      </a>
+    </div>
+
   </div>
 </div>
 
