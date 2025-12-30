@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../service/product.service';
+import { OrderService } from '../../service/order.service';
+import { AuthService } from '../../service/auth.service';
 import { Router, RouterModule } from '@angular/router'; // استيراد RouterModule أيضاً للـ HTML
 
 @Component({
@@ -24,9 +26,10 @@ export class ShopComponent implements OnInit {
   minPrice: number = 0;
   maxPrice: number = 10000;
 
-  // 2. أهم خطوة: يجب تعريف الـ Router هنا لكي تستطيع استخدامه داخل الدوال
   constructor(
     private productService: ProductService, 
+    private orderService: OrderService, // حقن الخدمة
+    private auth: AuthService,           // حقن خدمة الأمان
     private router: Router 
   ) {}
 
@@ -40,13 +43,42 @@ export class ShopComponent implements OnInit {
         if (res?.products) {
           this.allProducts = res.products;
           this.filteredProducts = res.products;
-          // تأمين الحسبة لضمان عدم وجود Infinity إذا كانت المصفوفة فارغة
           if (this.allProducts.length > 0) {
             this.maxPrice = Math.max(...this.allProducts.map(p => p.price));
           }
         }
       },
       error: err => console.error(err)
+    });
+  }
+
+  // --- دالة إضافة المنتج للسلة ---
+  addToCart(product: any) {
+    // 1. التأكد من تسجيل الدخول أولاً
+    if (!this.auth.isLoggedIn()) {
+      alert('يرجى تسجيل الدخول أولاً للإضافة إلى السلة');
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // 2. تحديد مقاس افتراضي إذا كان المنتج يدعم المقاسات (أو نتركه فارغاً)
+    const size = product.sizes && product.sizes.length > 0 ? product.sizes[0] : '';
+
+    // 3. استدعاء السيرفس
+    this.orderService.addItemToCart(product._id, 1, size).subscribe({
+      next: (res) => {
+        alert('تم إضافة المنتج بنجاح! 🎉');
+        // تحديث السلة في النافبار تلقائياً
+        this.orderService.getCurrentOrder().subscribe(cartRes => {
+          if (cartRes?.product?.products) {
+            this.orderService.setCart(cartRes.product.products);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error adding to cart:', err);
+        alert('حدث خطأ أثناء الإضافة');
+      }
     });
   }
 
@@ -86,7 +118,6 @@ export class ShopComponent implements OnInit {
 
   goToDetails(id: string | undefined) {
     if (!id) return;
-    // الآن this.router ستعمل بشكل صحيح
     this.router.navigate(['/detailsproduct', id]);
   }
 }

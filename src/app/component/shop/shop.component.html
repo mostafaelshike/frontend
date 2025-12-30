@@ -93,7 +93,7 @@
                 </div>
 
                 <!-- 🛒 شكل فقط -->
-                <div class="bag-icon">
+                <div class="bag-icon" (click)="addToCart(product)">
                   <i class="bi bi-bag-dash"></i>
                 </div>
               </div>
@@ -106,7 +106,7 @@
                   {{ product.price | number }} EGP
                 </div>
               </div>
-                <div class="details-icon"> <i class="bi bi-bag-dash"></i> </div>
+                <div class="details-icon" (click)="addToCart(product)"> <i class="bi bi-bag-dash"></i> </div>
               
             </div>
 
