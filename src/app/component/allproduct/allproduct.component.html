@@ -8,66 +8,66 @@
 
 
 
-<div class="container mt-5" style="margin-bottom: 80px;">
-  <div class="header-section d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold"><i class="bi bi-grid-3x3-gap-fill me-2"></i>لوحة التحكم: المنتجات</h2>
-    <button class="btn btn-primary add-btn shadow-sm" (click)="createProduct()">
-       إضافة منتج جديد +
+<div class="container-fluid container-lg mt-5" style="margin-bottom: 80px;">
+  <div class="header-section d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4 gap-3">
+    <h2 class="fw-bold m-0"><i class="bi bi-grid-3x3-gap-fill me-2"></i>لوحة التحكم: المنتجات</h2>
+    <button class="btn btn-primary add-btn shadow-sm w-100 w-sm-auto" (click)="createProduct()">
+      إضافة منتج جديد +
     </button>
   </div>
 
   <div *ngIf="loading" class="loader-container">
     <div class="spinner-border text-primary" role="status"></div>
-    <p class="mt-2 text-muted">جاري تحميل المنتجات من السيرفر...</p>
+    <p class="mt-2 text-muted">جاري تحميل المنتجات...</p>
   </div>
 
   <div *ngIf="errorMessage" class="alert alert-danger border-0 shadow-sm">
     {{ errorMessage }}
   </div>
 
-  <div class="table-responsive card shadow-sm border-0 rounded-4" *ngIf="!loading && products.length">
-    <table class="table table-hover align-middle mb-0 text-center">
-      <thead class="table-dark">
-        <tr>
-          <th>الصورة</th>
-          <th>الاسم</th>
-          <th>الفئة</th>
-          <th>السعر</th>
-          <th>التحكم</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products">
-        <td>
-  <ng-container *ngIf="product.images && product.images.length > 0; else noImage">
-    <img [src]="getImageUrl(product.images[0])" ... >
-  </ng-container>
-
-  <ng-template #noImage>
-    <img src="assets/no-image.png" 
-         style="width: 70px; height: 70px; opacity: 0.5;">
-  </ng-template>
-</td>
-          <td class="fw-bold">{{ product.name }}</td>
-          <td><span class="badge rounded-pill bg-light text-dark border">{{ product.category }}</span></td>
-          <td class="text-success fw-bold">{{ product.price | currency:'EGP ' }}</td>
-          <td>
-            <div class="btn-group gap-2">
-              <button class="btn btn-sm btn-outline-secondary rounded-3" (click)="editProduct(product._id)">
-                تعديل
-              </button>
-              <button class="btn btn-sm btn-danger rounded-3" (click)="deleteProduct(product._id)">
-                حذف
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="card shadow-sm border-0 rounded-4 overflow-hidden" *ngIf="!loading && products.length">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0 text-center custom-responsive-table">
+        <thead class="table-dark d-none d-md-table-header-group">
+          <tr>
+            <th>الصورة</th>
+            <th>الاسم</th>
+            <th>الفئة</th>
+            <th>السعر</th>
+            <th>التحكم</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products">
+            <td data-label="الصورة">
+              <ng-container *ngIf="product.images?.length > 0; else noImage">
+                <img [src]="getImageUrl(product.images[0])" class="product-img">
+              </ng-container>
+              <ng-template #noImage>
+                <img src="assets/no-image.png" class="product-img" style="opacity: 0.5;">
+              </ng-template>
+            </td>
+            <td data-label="الاسم" class="fw-bold text-truncate" style="max-width: 200px;">{{ product.name }}</td>
+            <td data-label="الفئة"><span class="badge rounded-pill bg-light text-dark border">{{ product.category }}</span></td>
+            <td data-label="السعر" class="text-success fw-bold">{{ product.price | currency:'EGP ' }}</td>
+            <td data-label="التحكم">
+              <div class="d-flex justify-content-center gap-2">
+                <button class="btn btn-sm btn-outline-secondary px-3" (click)="editProduct(product._id)">
+                  تعديل
+                </button>
+                <button class="btn btn-sm btn-danger px-3" (click)="deleteProduct(product._id)">
+                  حذف
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div *ngIf="!loading && products.length === 0" class="empty-state text-center py-5">
-    <img src="assets/empty-box.png" alt="No data" style="width: 100px; opacity: 0.5;">
-    <p class="mt-3 fs-5 text-muted">لا توجد منتجات حالياً. ابدأ بإضافة أول منتج!</p>
+    <img src="assets/empty-box.png" alt="No data" style="width: 80px; opacity: 0.5;">
+    <p class="mt-3 fs-5 text-muted">لا توجد منتجات حالياً.</p>
   </div>
 </div>

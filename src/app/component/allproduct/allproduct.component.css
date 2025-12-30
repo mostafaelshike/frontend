@@ -23,11 +23,57 @@
 
 
 
-.container { max-width: 1200px; }
-.add-btn { background-color: #31af68; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; }
-.add-btn:hover { background-color: #268c52; }
-.table-dark { background-color: #2c3e50; }
+.container-lg { max-width: 1200px; }
+.add-btn { background-color: #31af68; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+.add-btn:hover { background-color: #268c52; transform: translateY(-2px); }
+
+.product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* تحسينات الجدول للشاشات الصغيرة */
+@media (max-width: 767.98px) {
+    .custom-responsive-table thead {
+        display: none; /* إخفاء الهيدر في الموبايل */
+    }
+
+    .custom-responsive-table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #eee;
+        border-radius: 15px;
+        padding: 10px;
+        background: #fff;
+    }
+
+    .custom-responsive-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid #f8f9fa;
+    }
+
+    .custom-responsive-table td:last-child {
+        border-bottom: 0;
+    }
+
+    /* إظهار اسم العمود قبل القيمة في الموبايل */
+    .custom-responsive-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #6c757d;
+        margin-left: auto; /* ليدفع النص لليمين في اللغة العربية */
+    }
+    
+    .product-img {
+        width: 80px;
+        height: 80px;
+    }
+}
+
 .loader-container { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; }
-.card { overflow: hidden; }
-tr:hover { background-color: #f8f9fa; }
-.badge { font-weight: 500; padding: 8px 12px; }
