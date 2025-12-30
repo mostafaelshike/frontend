@@ -1,1 +1,20 @@
-<p>details-product works!</p>
+<div class="container">
+    <div class="row g-4"> 
+        <div class="col-12 col-md-6 col-xl-6">
+           <div >
+            <img [src]="'http://localhost:5000' + selectedImage" class="img-fluid main-img">
+      </div>
+
+      <img *ngFor="let img of product.images" 
+           [src]="'http://localhost:5000' + img" 
+           [class.selected]="selectedImage === img"
+           (click)="selectImage(img)"
+           class="small-img mb-2">
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-6">
+            <div class="p-3 border bg-light">المحتوى الثاني</div>
+        </div>
+
+    </div>
+</div>
