@@ -2,9 +2,11 @@
   <div class="row g-5" *ngIf="product">
     
     <div class="col-lg-6">
-      <div class="main-image-viewport shadow-sm rounded-4 overflow-hidden  bg-white border">
-        <img [src]="selectedImage" class="img-fluid main-img-zoom" [alt]="product.name" style="width: 100%;height: 100%;">
-      </div>
+     <div class="main-image-viewport shadow-sm rounded-4 overflow-hidden mb-3 bg-white border">
+  <img [src]="selectedImage" 
+       class="img-fluid main-img-zoom w-100 h-100" 
+       [alt]="product.name">
+</div>
       
       <div class="d-flex gap-2 thumb-slider pb-2">
         <div *ngFor="let img of product.images" 
