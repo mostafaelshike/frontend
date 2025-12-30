@@ -45,16 +45,16 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  loadUserCart() {
-    this.orderService.getCurrentOrder().subscribe({
-      next: (res) => {
-        if (res?.product?.products) {
-          this.orderService.setCart(res.product.products);
-        }
-      },
-      error: (err) => console.error('Error loading cart:', err)
-    });
-  }
+ loadUserCart() {
+  this.orderService.getCurrentOrder().subscribe({
+    next: (res) => {
+      console.log("البيانات القادمة من السيرفر:", res); // جرب هذا السطر
+      if (res?.product?.products) {
+        this.orderService.setCart(res.product.products);
+      }
+    }
+  });
+}
 
   updateCartSummary() {
     this.cartCount = this.cartItems.reduce((total, item) => total + (item.quantity || 0), 0);
