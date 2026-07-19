@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private apiUrl = 'http://localhost:8080/api/products';
+  private apiUrl = 'https://backend-coral-three-89.vercel.app/products';
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
