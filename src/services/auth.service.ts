@@ -14,7 +14,7 @@ export class AuthService {
   // غير الرابط ده لما تنشر الباك اند
   // مثال: 'https://backend-name.up.railway.app'
   private readonly BASE_URL = 'http://localhost:8080';  
-  // private readonly BASE_URL = 'https://your-backend-name.up.railway.app';
+  // private readonly BASE_URL = 'https://backend-coral-three-89.vercel.app';
   // ────────────────────────────────────────────────
 
   private apiUrl = `${this.BASE_URL}/api/users`;
