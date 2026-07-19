@@ -27,7 +27,7 @@ export interface Order {
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'http://localhost:8080/api/orders';
+  private apiUrl = 'https://backend-coral-three-89.vercel.app/orders';
 
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
   cart$ = this.cartSubject.asObservable();
